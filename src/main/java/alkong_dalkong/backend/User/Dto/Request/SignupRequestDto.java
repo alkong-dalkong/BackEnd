@@ -1,8 +1,8 @@
-package alkong_dalkong.backend.Dto.Request;
+package alkong_dalkong.backend.User.Dto.Request;
 
 import java.time.LocalDate;
 
-import alkong_dalkong.backend.Domain.Users.Gender;
+import alkong_dalkong.backend.User.Domain.Gender;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

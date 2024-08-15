@@ -1,10 +1,10 @@
-package alkong_dalkong.backend.Controller;
+package alkong_dalkong.backend.User.Controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import alkong_dalkong.backend.Dto.Request.SignupRequestDto;
-import alkong_dalkong.backend.Dto.Response.TokenDto;
-import alkong_dalkong.backend.Service.UserService;
+import alkong_dalkong.backend.User.Dto.Request.SignupRequestDto;
+import alkong_dalkong.backend.User.Dto.Response.TokenDto;
+import alkong_dalkong.backend.User.Service.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

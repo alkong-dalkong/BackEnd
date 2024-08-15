@@ -1,11 +1,11 @@
-package alkong_dalkong.backend.Controller;
+package alkong_dalkong.backend.User.Controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import alkong_dalkong.backend.Dto.Request.SignupRequestDto;
+import alkong_dalkong.backend.User.Dto.Request.SignupRequestDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 

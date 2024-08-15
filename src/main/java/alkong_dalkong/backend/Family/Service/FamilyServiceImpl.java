@@ -1,11 +1,11 @@
-package alkong_dalkong.backend.Service;
+package alkong_dalkong.backend.Family.Service;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import alkong_dalkong.backend.Domain.Users.Family;
-import alkong_dalkong.backend.Domain.Users.User;
+import alkong_dalkong.backend.Family.Domain.Family;
+import alkong_dalkong.backend.User.Domain.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 

@@ -1,9 +1,9 @@
-package alkong_dalkong.backend.Service;
+package alkong_dalkong.backend.Family.Service;
 
 import java.util.List;
 
-import alkong_dalkong.backend.Domain.Users.Family;
-import alkong_dalkong.backend.Domain.Users.User;
+import alkong_dalkong.backend.Family.Domain.Family;
+import alkong_dalkong.backend.User.Domain.User;
 
 public interface FamilyService {
     List<User> getMembersByFamilyCode(String code) throws Exception;

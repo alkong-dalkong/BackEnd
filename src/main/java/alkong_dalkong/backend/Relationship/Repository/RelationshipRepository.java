@@ -1,3 +1,4 @@
+package alkong_dalkong.backend.Relationship.Repository;
 // package alkong_dalkong.backend.Repository;
 
 // import org.springframework.data.jpa.repository.JpaRepository;
