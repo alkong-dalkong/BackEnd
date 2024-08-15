@@ -1,4 +1,4 @@
-package alkong_dalkong.backend.Dto.Response;
+package alkong_dalkong.backend.User.Dto.Response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

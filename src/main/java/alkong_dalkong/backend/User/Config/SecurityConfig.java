@@ -1,4 +1,4 @@
-package alkong_dalkong.backend.Config;
+package alkong_dalkong.backend.User.Config;
 
 import org.springframework.lang.NonNull;
 
@@ -17,10 +17,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
-import alkong_dalkong.backend.Config.Filter.JwtFilter;
-import alkong_dalkong.backend.Config.Filter.LoginFilter;
-import alkong_dalkong.backend.Config.Filter.LogoutFilter;
-import alkong_dalkong.backend.Config.Util.JwtUtil;
+import alkong_dalkong.backend.User.Config.Filter.JwtFilter;
+import alkong_dalkong.backend.User.Config.Filter.LoginFilter;
+import alkong_dalkong.backend.User.Config.Filter.LogoutFilter;
+import alkong_dalkong.backend.User.Config.Util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 

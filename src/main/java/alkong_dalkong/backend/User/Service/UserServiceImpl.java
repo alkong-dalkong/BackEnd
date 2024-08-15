@@ -1,4 +1,4 @@
-package alkong_dalkong.backend.Service;
+package alkong_dalkong.backend.User.Service;
 
 import java.util.Set;
 
@@ -8,11 +8,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import alkong_dalkong.backend.Config.Util.JwtUtil;
-import alkong_dalkong.backend.Domain.Users.User;
-import alkong_dalkong.backend.Dto.Request.SignupRequestDto;
-import alkong_dalkong.backend.Dto.Response.TokenDto;
-import alkong_dalkong.backend.Repository.UserRepository;
+import alkong_dalkong.backend.User.Config.Util.JwtUtil;
+import alkong_dalkong.backend.User.Domain.User;
+import alkong_dalkong.backend.User.Dto.Request.SignupRequestDto;
+import alkong_dalkong.backend.User.Dto.Response.TokenDto;
+import alkong_dalkong.backend.User.Repository.UserRepository;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,4 +1,4 @@
-package alkong_dalkong.backend.Domain.Users;
+package alkong_dalkong.backend.Relationship.Domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

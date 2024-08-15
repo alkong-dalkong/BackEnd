@@ -1,4 +1,4 @@
-package alkong_dalkong.backend.Domain.Users;
+package alkong_dalkong.backend.Family.Domain;
 
 import java.time.LocalDateTime;
 
