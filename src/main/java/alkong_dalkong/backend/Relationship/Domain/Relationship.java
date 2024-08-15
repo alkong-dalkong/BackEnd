@@ -11,20 +11,20 @@ import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
-@Entity
+// @Entity
 @Builder
 @AllArgsConstructor
 public class Relationship {
-    @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name = "relation_id")
-    private long id;
+    // @Id
+    // @GeneratedValue(strategy=GenerationType.AUTO)
+    // @Column(name = "relation_id")
+    // private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private long userId;
+    // @ManyToOne(fetch = FetchType.LAZY)
+    // @JoinColumn(name = "user_id")
+    // private long userId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "family_id")
-    private long familyId;
+    // @ManyToOne(fetch = FetchType.LAZY)
+    // @JoinColumn(name = "family_id")
+    // private long familyId;
 }
