@@ -1,4 +1,4 @@
-package alkong_dalkong.backend.Config.Filter;
+package alkong_dalkong.backend.User.Config.Filter;
 
 import java.io.PrintWriter;
 import java.util.Collection;
@@ -6,14 +6,15 @@ import java.util.Iterator;
 import io.jsonwebtoken.io.IOException;
 
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import alkong_dalkong.backend.User.Config.Util.JwtUtil;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.Authentication;
 import org.springframework.http.HttpStatus;
-
-import alkong_dalkong.backend.Config.Util.JwtUtil;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,11 +1,11 @@
-package alkong_dalkong.backend.Config.Filter;
+package alkong_dalkong.backend.User.Config.Filter;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 
 import org.springframework.web.filter.GenericFilterBean;
 
-import alkong_dalkong.backend.Config.Util.JwtUtil;
+import alkong_dalkong.backend.User.Config.Util.JwtUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.FilterChain;

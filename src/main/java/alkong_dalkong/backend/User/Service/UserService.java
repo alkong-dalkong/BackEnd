@@ -1,9 +1,9 @@
-package alkong_dalkong.backend.Service;
+package alkong_dalkong.backend.User.Service;
 
 import java.net.http.HttpRequest;
 
-import alkong_dalkong.backend.Dto.Request.SignupRequestDto;
-import alkong_dalkong.backend.Dto.Response.TokenDto;
+import alkong_dalkong.backend.User.Dto.Request.SignupRequestDto;
+import alkong_dalkong.backend.User.Dto.Response.TokenDto;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
