@@ -1,10 +1,13 @@
 package alkong_dalkong.backend.Relationship.Repository;
-// package alkong_dalkong.backend.Repository;
 
-// import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
+import java.util.Optional;
 
-// import alkong_dalkong.backend.Domain.Users.Relationship;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-// public interface RelationshipRepository extends JpaRepository<Relationship, Long>{
+import alkong_dalkong.backend.Relationship.Domain.Relationship;
+
+public interface RelationshipRepository extends JpaRepository<Relationship, Long> {
+    Optional<List<Relationship>> findAllByFamilyId(Long familyId);
     
-// }
+}

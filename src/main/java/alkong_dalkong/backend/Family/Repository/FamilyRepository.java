@@ -1,10 +1,13 @@
 package alkong_dalkong.backend.Family.Repository;
-// package alkong_dalkong.backend.Repository;
 
-// import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
 
-// import alkong_dalkong.backend.Domain.Users.Family;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-// public interface FamilyRepository extends JpaRepository<Family, Long>{
-    
-// }
+import alkong_dalkong.backend.Family.Domain.Family;
+
+public interface FamilyRepository extends JpaRepository<Family, Long>{
+    boolean existsByCode(String code);
+
+    Optional<Family> findByCode(String code);
+}
