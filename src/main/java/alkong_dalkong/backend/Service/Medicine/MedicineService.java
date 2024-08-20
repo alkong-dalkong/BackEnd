@@ -12,7 +12,8 @@ import org.springframework.stereotype.Service;
 public class MedicineService {
     private final MedicineRepository medicinerepository;
 
-    public void saveMedicine(Medicine medicine){
-        medicinerepository.save(medicine);
+    // 약 정보 저장
+    public void saveMedicine( Medicine newMedicine){
+        medicinerepository.save(newMedicine);
     }
 }

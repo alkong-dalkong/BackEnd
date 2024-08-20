@@ -5,10 +5,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.Getter;
-import lombok.Setter;
 
 @Entity
-@Getter @Setter
+@Getter
 public class Medicine {
     @Id @GeneratedValue
     @Column(name = "medicine_id")
@@ -17,4 +16,13 @@ public class Medicine {
     private String medicineName;
     // 약 설명
     private String medicineMemo;
+
+
+    // 생성 메서드
+    public static Medicine createMedicine(String name) {
+        Medicine medicine = new Medicine();
+        medicine.medicineName = name;
+
+        return medicine;
+    }
 }

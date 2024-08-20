@@ -1,24 +1,29 @@
 package alkong_dalkong.backend.Domain.Medicine;
 
+import alkong_dalkong.backend.Domain.Medicine.Enum.MedicineTaken;
+import alkong_dalkong.backend.Domain.Medicine.Enum.MedicineWeek;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
 
-import java.util.Date;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Getter @Setter
+@Getter
 public class MedicineRecord {
     @Id @GeneratedValue
     @Column(name = "medicine_record_id")
     private Long id;
+
     // 복용 정보를 기록하는 날자
-    private Date takenDate;
+    private LocalDate takenDate;
 
     // 복용하는 사용자와 약 정보
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "medicine_relation_id")
-    private MedicineRelation medicineDate;
+    private MedicineRelation medicineRelation;
 
     // 약 복용 여부
     @Enumerated(EnumType.STRING)
@@ -27,4 +32,30 @@ public class MedicineRecord {
     private MedicineTaken lunch;
     @Enumerated(EnumType.STRING)
     private MedicineTaken dinner;
+
+
+    // 생성 메서드
+    public static MedicineRecord createMedicineRecord(LocalDate day,
+                                                      MedicineRelation initMedicineRelation){
+        MedicineRecord medicineRecord = new MedicineRecord();
+        medicineRecord.takenDate = day;
+        medicineRecord.medicineRelation = initMedicineRelation;
+
+        medicineRecord.breakfast = MedicineTaken.X;
+        medicineRecord.lunch = MedicineTaken.X;
+        medicineRecord.dinner = MedicineTaken.X;
+
+        return medicineRecord;
+    }
+
+    // 약 복용 상황
+    public void changeBreakfastTaken(MedicineTaken state){
+        this.breakfast = state;
+    }
+    public void changeLunchTaken(MedicineTaken state){
+        this.lunch = state;
+    }
+    public void changeDinnerTaken(MedicineTaken state){
+        this.dinner = state;
+    }
 }
