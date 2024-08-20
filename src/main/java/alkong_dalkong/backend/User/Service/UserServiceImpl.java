@@ -2,31 +2,32 @@ package alkong_dalkong.backend.User.Service;
 
 import java.util.Set;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import alkong_dalkong.backend.User.Config.Util.JwtUtil;
+import alkong_dalkong.backend.User.Domain.Gender;
 import alkong_dalkong.backend.User.Domain.User;
 import alkong_dalkong.backend.User.Dto.Request.SignupRequestDto;
+import alkong_dalkong.backend.User.Dto.Request.UserInfoRequestDto;
 import alkong_dalkong.backend.User.Dto.Response.TokenDto;
+import alkong_dalkong.backend.User.Dto.Response.UserInfoResponseDto;
 import alkong_dalkong.backend.User.Repository.UserRepository;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Valid;
 import jakarta.validation.Validator;
-// import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final Validator validator;
@@ -81,6 +82,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("사용자 정보를 찾을 수 없습니다."));
     }
 
+    public UserInfoResponseDto getUserInfoForEdit() throws UsernameNotFoundException {
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = (User) loadUserByUsername(userId);
+        
+        return new UserInfoResponseDto(user.getName(), user.getPhoneNumber(), user.getBirth(), 
+                Gender.valueOf(user.getGender()));
+    }
+
     private String validateRefresh(Cookie[] cookies) throws NullPointerException, ExpiredJwtException,
             IllegalArgumentException {
         String refresh = null;
@@ -110,5 +119,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             throw new IllegalArgumentException("유효하지 않은 토큰입니다.");
         }
         return refresh;
+    }
+
+    @Override
+    public void editUserInfo(@Valid UserInfoRequestDto dto) throws IllegalArgumentException , UsernameNotFoundException{
+        Set<ConstraintViolation<UserInfoRequestDto>> violations = validator.validate(dto);
+        if (!violations.isEmpty()) {
+            throw new IllegalArgumentException("입력값이 올바르지 않습니다.");
+        }
+
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = (User) loadUserByUsername(userId);
+        user.updateUserInfo(dto);
     }
 }

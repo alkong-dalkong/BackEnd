@@ -9,5 +9,7 @@ import alkong_dalkong.backend.Relationship.Domain.Relationship;
 
 public interface RelationshipRepository extends JpaRepository<Relationship, Long> {
     Optional<List<Relationship>> findAllByFamilyId(Long familyId);
+
+    Optional<List<Relationship>> findAllByUserId(Long userId);
     
 }

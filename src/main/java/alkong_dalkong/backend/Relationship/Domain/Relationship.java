@@ -1,7 +1,5 @@
 package alkong_dalkong.backend.Relationship.Domain;
 
-import java.util.List;
-
 import alkong_dalkong.backend.Family.Domain.Family;
 import alkong_dalkong.backend.User.Domain.User;
 import jakarta.persistence.Column;

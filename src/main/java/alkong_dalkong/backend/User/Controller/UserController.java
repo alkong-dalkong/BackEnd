@@ -3,6 +3,7 @@ package alkong_dalkong.backend.User.Controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import alkong_dalkong.backend.User.Dto.Request.SignupRequestDto;
+import alkong_dalkong.backend.User.Dto.Request.UserInfoRequestDto;
 import alkong_dalkong.backend.User.Dto.Response.TokenDto;
 import alkong_dalkong.backend.User.Service.UserService;
 import jakarta.servlet.http.Cookie;
@@ -12,12 +13,21 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 
 @RestController
 @RequiredArgsConstructor
 public class UserController implements UserOperations{
     private final UserService userService;
+
+    private Cookie createCookie(String value, int expiry) {
+        Cookie cookie = new Cookie("refresh", value);
+        cookie.setMaxAge(expiry);
+        cookie.setHttpOnly(true);
+
+        return cookie;
+    }
 
     @Override
     public ResponseEntity<?> signup(SignupRequestDto dto) {
@@ -53,11 +63,22 @@ public class UserController implements UserOperations{
         return ResponseEntity.status(HttpStatus.OK).body("회원탈퇴가 완료되었습니다.");
     }
 
-    private Cookie createCookie(String value, int expiry) {
-        Cookie cookie = new Cookie("refresh", value);
-        cookie.setMaxAge(expiry);
-        cookie.setHttpOnly(true);
+    @Override
+    public ResponseEntity<?> getUserInfoForEdit() {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(userService.getUserInfoForEdit());
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 
-        return cookie;
+    @Override
+    public ResponseEntity<?> editUserInfo(UserInfoRequestDto dto) {
+        try {
+            userService.editUserInfo(dto);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+        return ResponseEntity.status(HttpStatus.OK).body("회원정보가 수정되었습니다.");
     }
 }

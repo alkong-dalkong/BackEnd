@@ -5,6 +5,6 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class GetMembersRequestDto {
+public class EnterFamilyRequestDto {
     private String familyCode;
 }
