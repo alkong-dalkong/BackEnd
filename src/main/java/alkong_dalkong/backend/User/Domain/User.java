@@ -6,6 +6,9 @@ import java.util.ArrayList;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import alkong_dalkong.backend.User.Dto.Request.UserInfoRequestDto;
+
 import org.springframework.security.core.GrantedAuthority;
 
 import jakarta.persistence.GeneratedValue;
@@ -19,7 +22,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Builder
+@Builder(toBuilder = true)
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -92,5 +95,12 @@ public class User implements UserDetails {
             return true;
         }
         return false;
+    }
+
+    public void updateUserInfo(UserInfoRequestDto dto){
+        this.name = dto.getName();
+        this.phoneNumber = dto.getPhoneNumber();
+        this.birth = dto.getBirth();
+        this.gender = dto.getGender().toString();
     }
 }

@@ -50,7 +50,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
         String role = iterator.next().getAuthority();
-System.out.println("login filter : "+userId);
+        
         String accessToken = jwtUtil.createJwt("access", userId, role, 10 * 60 * 1000L); // 10분
         String refreshToken = jwtUtil.createJwt("refresh", userId, role, 24 * 60 * 60 * 1000L); // 24시간
 
@@ -60,6 +60,8 @@ System.out.println("login filter : "+userId);
         response.setStatus(HttpStatus.OK.value());
 
         response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json");
+
         response.setContentType("text/plain; charset=UTF-8");
         try (PrintWriter writer = response.getWriter()) {
             writer.print("로그인에 성공하였습니다.");

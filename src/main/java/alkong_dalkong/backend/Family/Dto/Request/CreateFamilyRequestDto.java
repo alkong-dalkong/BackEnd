@@ -7,5 +7,4 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateFamilyRequestDto {
     private String familyName;
-    
 }
