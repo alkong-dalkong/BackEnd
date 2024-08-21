@@ -8,7 +8,7 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 @Getter
-public class User {
+public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +18,6 @@ public class User {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "users", fetch = FetchType.LAZY)
     private List<MedicalInfo> medicalInfos;
 }

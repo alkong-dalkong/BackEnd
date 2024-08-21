@@ -31,7 +31,7 @@ public class MedicalInfo {
 
     // list로 저장
     @Convert(converter = StringListConverter.class)
-    @Column(name = "madical_part")
+    @Column(name = "medical_part")
     private List<String> medicalPart;
 
     @Column(name = "medical_memo")
@@ -42,5 +42,5 @@ public class MedicalInfo {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Users users;
 }
