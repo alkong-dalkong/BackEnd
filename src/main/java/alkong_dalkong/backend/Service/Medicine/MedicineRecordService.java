@@ -62,12 +62,6 @@ public class MedicineRecordService {
         else if(taken_num == 1){
             taken = MedicineTaken.TAKEN;
         }
-        else if(taken_num == 2){
-            taken = MedicineTaken.NOT_YET;
-        }
-        else if(taken_num == 3){
-            taken = MedicineTaken.CANCEL;
-        }
         else{
             throw new IllegalStateException("복용 정보가 올바르지 않습니다.");
         }

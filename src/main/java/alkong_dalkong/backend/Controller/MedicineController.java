@@ -38,30 +38,23 @@ public class MedicineController {
         MedicineUser user = findUser.orElseThrow(()->new IllegalStateException("USER ID가 존재하지 않습니다."));
 
         // 약 저장
-        Medicine medicine = Medicine.createMedicine(request.getMedicine_name());
+        Medicine medicine = Medicine.createMedicine(request.getMedicineName());
         medicineService.saveMedicine(medicine);
 
         // 약 정보 저장
         MedicineRelation medicineRelation = MedicineRelation.createMedicineRelation(user, medicine,
-                request.getMedicine_times(), request.getMedicine_dosage(),
-                request.getMedicine_taken_time(), request.getMedicine_memo(), request.getMedicine_alarm(), request.getMedicine_week());
+                request.getMedicineTimes(), request.getMedicineDosage(), request.getMedicineTakenType(),
+                request.getMedicineTakenTime(), request.getMedicineMemo(), request.getMedicineAlarm(), request.getMedicineWeek());
         medicineRelationService.saveMedicineRelation(medicineRelation);
 
-        // 약을 복용해야 하는 모든 날짜를 계산
-        List<LocalDate> possibleList = new ArrayList<>();
-        for (LocalDate date = request.getMedicine_start();
-             !date.isAfter(request.getMedicine_end()); date = date.plusDays(1)) {
-            if(request.getMedicine_week().contains(date.getDayOfWeek())){
-                possibleList.add(date);
-            }
-        }
+        // 복용 하는 모든 리스트
+        List<LocalDate> possibleList = countAllDates(request.getMedicineStart(), request.getMedicineEnd(), request.getMedicineWeek());
 
         // 약 기록 정보 저장
         medicineRelationService.createNewMedicine(medicineRelation, possibleList);
 
         return new AddNewMedicineResponse(medicine.getId());
     }
-
 
     @GetMapping("/mdicine/{medicine_user_id}/{medicine_id}/medicine_info")
     public MedicineInfoResponse MedicineInfo(@PathVariable("medicine_user_id") Long user_id,
@@ -86,6 +79,25 @@ public class MedicineController {
                 medicineRelation.getMedicineTimes(),
                 timeList, dateList, medicineRelation.getDosage(),
                 medicineRelation.getMedicineMemo(), agree_num);
+    }
+
+    // 복용 가능해야 하는 모든 날짜
+    List<LocalDate> countAllDates(LocalDate startDate, LocalDate endDate, List<DayOfWeek> weekList){
+        // 복용 기한이 무제한인 경우
+        LocalDate lastDate = endDate;
+        LocalDate infiniteDate = LocalDate.of(9999, 12, 31);
+        if(lastDate.isEqual(infiniteDate)){
+            lastDate = lastDate.plusMonths(1);
+        }
+
+        List<LocalDate> resultList = new ArrayList<>();
+        for (LocalDate date = startDate; !date.isAfter(lastDate); date = date.plusDays(1)) {
+            if(weekList.contains(date.getDayOfWeek())){
+                resultList.add(date);
+            }
+        }
+
+        return resultList;
     }
 
 }

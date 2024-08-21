@@ -10,13 +10,14 @@ import java.util.List;
 
 @Data
 public class AddNewMedicineRequest {
-    private String medicine_name;
-    private List<DayOfWeek> medicine_week = new ArrayList<>();
-    private Integer medicine_times;
-    private List<LocalTime> medicine_taken_time = new ArrayList<>();
-    private LocalDate medicine_start;
-    private LocalDate medicine_end;
-    private Long medicine_dosage;
-    private String medicine_memo;
-    private Integer medicine_alarm;
+    private String medicineName;
+    private List<DayOfWeek> medicineWeek = new ArrayList<>();
+    private Integer medicineTimes;
+    private List<LocalTime> medicineTakenTime = new ArrayList<>();
+    private LocalDate medicineStart;
+    private LocalDate medicineEnd;
+    private Long medicineDosage;
+    private Integer medicineTakenType;
+    private String medicineMemo;
+    private Integer medicineAlarm;
 }

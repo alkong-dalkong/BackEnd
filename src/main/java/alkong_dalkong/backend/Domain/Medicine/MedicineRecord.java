@@ -1,14 +1,9 @@
 package alkong_dalkong.backend.Domain.Medicine;
 
 import alkong_dalkong.backend.Domain.Medicine.Enum.MedicineTaken;
-import alkong_dalkong.backend.Domain.Medicine.Enum.MedicineWeek;
 import jakarta.persistence.*;
 import lombok.Getter;
-
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -41,9 +36,9 @@ public class MedicineRecord {
         medicineRecord.takenDate = day;
         medicineRecord.medicineRelation = initMedicineRelation;
 
-        medicineRecord.breakfast = MedicineTaken.X;
-        medicineRecord.lunch = MedicineTaken.X;
-        medicineRecord.dinner = MedicineTaken.X;
+        medicineRecord.breakfast = MedicineTaken.NOT_TAKEN;
+        medicineRecord.lunch = MedicineTaken.NOT_TAKEN;
+        medicineRecord.dinner = MedicineTaken.NOT_TAKEN;
 
         return medicineRecord;
     }

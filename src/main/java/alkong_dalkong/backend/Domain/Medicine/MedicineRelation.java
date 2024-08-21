@@ -2,6 +2,7 @@ package alkong_dalkong.backend.Domain.Medicine;
 
 import alkong_dalkong.backend.Domain.Medicine.Enum.MedicineAlarm;
 import alkong_dalkong.backend.Domain.Medicine.Enum.MedicineWeek;
+import alkong_dalkong.backend.Domain.Medicine.Enum.TakenType;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -31,6 +32,8 @@ public class MedicineRelation {
     private int medicineTimes;
     // 복용량 (한번에 복용량)
     private Long dosage;
+    // 복용 타입
+    private TakenType medicineTakenType;
 
     // 약 복용 시간
     private LocalTime medicineBreakfast = null;
@@ -54,7 +57,7 @@ public class MedicineRelation {
 
     // 생성 메서드
     public static MedicineRelation createMedicineRelation(MedicineUser initUser, Medicine initMedicine,
-                                                          int times, Long dos,
+                                                          int times, Long dos, Integer taken_type,
                                                           List<LocalTime> medicine_time,
                                                           String memo, Integer alarm, List<DayOfWeek> week){
         MedicineRelation medicineRelation = new MedicineRelation();
@@ -70,6 +73,11 @@ public class MedicineRelation {
                 case 1 -> medicineRelation.medicineLunch = medicine_time.get(1);
                 case 2 -> medicineRelation.medicineDinner = medicine_time.get(2);
             }
+        }
+
+        switch(taken_type){
+            case 0 -> medicineRelation.medicineTakenType = TakenType.dose;
+            case 1 -> medicineRelation.medicineTakenType = TakenType.tablet;
         }
 
         medicineRelation.medicineMemo = memo;

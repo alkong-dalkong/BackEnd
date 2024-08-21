@@ -38,13 +38,13 @@ public class MedicineRelationService {
                     MedicineRecord.createMedicineRecord(localDate, medicineRelation);
 
             if(medicineRelation.getMedicineBreakfast() != null){
-                medicineRecord.changeBreakfastTaken(MedicineTaken.NOT_YET);
+                medicineRecord.changeBreakfastTaken(MedicineTaken.NOT_TAKEN);
             }
             if(medicineRelation.getMedicineLunch() != null){
-                medicineRecord.changeLunchTaken(MedicineTaken.NOT_YET);
+                medicineRecord.changeLunchTaken(MedicineTaken.NOT_TAKEN);
             }
             if(medicineRelation.getMedicineDinner() != null){
-                medicineRecord.changeDinnerTaken(MedicineTaken.NOT_YET);
+                medicineRecord.changeDinnerTaken(MedicineTaken.NOT_TAKEN);
             }
 
             medicineRecordRepository.save(medicineRecord);
