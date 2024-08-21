@@ -18,7 +18,7 @@ public class CalendarMedicalService {
     private MedicalInfoCalendarRepository medicalInfoCalendarRepository;
 
     public List<Map<String, Object>> getMedicalInfoForMonth(Long userId, LocalDateTime startOfMonth, LocalDateTime endOfMonth) {
-        List<MedicalInfo> medicalInfos = medicalInfoCalendarRepository.findByUserIdAndHospitalDateBetween(userId, startOfMonth, endOfMonth);
+        List<MedicalInfo> medicalInfos = medicalInfoCalendarRepository.findByUserUserIdAndHospitalDateBetween(userId, startOfMonth, endOfMonth);
 
         List<Map<String, Object>> data = new ArrayList<>();
         for (MedicalInfo info : medicalInfos) {
