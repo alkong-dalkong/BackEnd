@@ -10,14 +10,14 @@ public class MedicalInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long medical_id;
+    private Long medicalId;
 
-    private String hospital_name;
-    private LocalDateTime hospital_date;
+    private String hospitalName;
+    private LocalDateTime hospitalDate;
 
     @ElementCollection
-    private List<String> medical_part;
+    private List<String> medicalPart;
 
-    private String medical_memo;
-    private LocalDateTime medical_alarm;
+    private String medicalMemo;
+    private LocalDateTime medicalAlarm;
 }
