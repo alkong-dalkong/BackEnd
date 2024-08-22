@@ -3,7 +3,6 @@ package alkong_dalkong.backend.Controller;
 import alkong_dalkong.backend.DTO.AddNewMedicineRequest;
 import alkong_dalkong.backend.DTO.AddNewMedicineResponse;
 import alkong_dalkong.backend.DTO.MedicineInfoResponse;
-import alkong_dalkong.backend.Domain.Medicine.Enum.MedicineAlarm;
 import alkong_dalkong.backend.Domain.Medicine.Medicine;
 import alkong_dalkong.backend.Domain.Medicine.MedicineRelation;
 import alkong_dalkong.backend.Domain.Medicine.MedicineUser;
@@ -44,7 +43,8 @@ public class MedicineController {
         // 약 정보 저장
         MedicineRelation medicineRelation = MedicineRelation.createMedicineRelation(user, medicine,
                 request.getMedicineTimes(), request.getMedicineDosage(), request.getMedicineTakenType(),
-                request.getMedicineTakenTime(), request.getMedicineMemo(), request.getMedicineAlarm(), request.getMedicineWeek());
+                request.getMedicineTakenTimeList(), request.getMedicineEnd(),
+                request.getMedicineMemo(), request.getMedicineAlarm(), request.getMedicineWeek());
         medicineRelationService.saveMedicineRelation(medicineRelation);
 
         // 복용 하는 모든 리스트
@@ -56,7 +56,7 @@ public class MedicineController {
         return new AddNewMedicineResponse(medicine.getId());
     }
 
-    @GetMapping("/mdicine/{medicine_user_id}/{medicine_id}/medicine_info")
+    @GetMapping("/medicine/{medicine_user_id}/{medicine_id}/medicine_info")
     public MedicineInfoResponse MedicineInfo(@PathVariable("medicine_user_id") Long user_id,
                                              @PathVariable("medicine_id") Long medicine_id){
         // 사용자가 복용하는 약
@@ -66,19 +66,12 @@ public class MedicineController {
         List<DayOfWeek> weekList = medicineRelation.possibleWeek();
         // 약을 복용하는 시간 리스트
         List<LocalTime> timeList = medicineRelation.takenTime();
-        // 약을 복용하는 날짜 리스트
-        List<LocalDate> dateList = medicineRecordService.FindAllDateByMedicine(medicineRelation.getId());
 
-        int agree_num;
-        if(medicineRelation.getMedicineAlarm().equals(MedicineAlarm.AGREE)){
-            agree_num = 1;
-        }else{
-            agree_num=  0;
-        }
         return new MedicineInfoResponse(medicineRelation.getMedicine().getMedicineName(), weekList,
                 medicineRelation.getMedicineTimes(),
-                timeList, dateList, medicineRelation.getDosage(),
-                medicineRelation.getMedicineMemo(), agree_num);
+                timeList, medicineRelation.getTakenEndDate(), medicineRelation.getDosage(),
+                medicineRelation.getMedicineTakenType(),
+                medicineRelation.getMedicineMemo(), medicineRelation.getMedicineAlarm());
     }
 
     // 복용 가능해야 하는 모든 날짜
@@ -87,7 +80,7 @@ public class MedicineController {
         LocalDate lastDate = endDate;
         LocalDate infiniteDate = LocalDate.of(9999, 12, 31);
         if(lastDate.isEqual(infiniteDate)){
-            lastDate = lastDate.plusMonths(1);
+            lastDate = startDate.plusMonths(1);
         }
 
         List<LocalDate> resultList = new ArrayList<>();
@@ -99,5 +92,4 @@ public class MedicineController {
 
         return resultList;
     }
-
 }

@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class MedicineUpdateTakenRequest {
-    Integer timeNum;
-    Integer takenNum;
+    int timeNum;
+    int takenNum;
 }

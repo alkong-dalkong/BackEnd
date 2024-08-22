@@ -1,12 +1,11 @@
 package alkong_dalkong.backend.Domain.Medicine;
 
-import alkong_dalkong.backend.Domain.Medicine.Enum.MedicineAlarm;
-import alkong_dalkong.backend.Domain.Medicine.Enum.MedicineWeek;
 import alkong_dalkong.backend.Domain.Medicine.Enum.TakenType;
 import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,10 +28,11 @@ public class MedicineRelation {
     private Medicine medicine;
 
     // 복용 횟수 (하루에 몇번)
-    private int medicineTimes;
+    private Integer medicineTimes;
     // 복용량 (한번에 복용량)
     private Long dosage;
     // 복용 타입
+    @Enumerated(EnumType.STRING)
     private TakenType medicineTakenType;
 
     // 약 복용 시간
@@ -40,32 +40,40 @@ public class MedicineRelation {
     private LocalTime medicineLunch = null;
     private LocalTime medicineDinner = null;
 
+    // 마지막 복용 날짜
+    private LocalDate takenEndDate;
+
     // 기타 메모
     private String medicineMemo;
 
     // 알람 설정
-    private MedicineAlarm medicineAlarm;
+    private int medicineAlarm;
 
     // 요일 복용 상황
-    private MedicineWeek monday = MedicineWeek.N;
-    private MedicineWeek tuesday = MedicineWeek.N;
-    private MedicineWeek wednesday = MedicineWeek.N;
-    private MedicineWeek thursday = MedicineWeek.N;
-    private MedicineWeek friday = MedicineWeek.N;
-    private MedicineWeek saturday = MedicineWeek.N;
-    private MedicineWeek sunday = MedicineWeek.N;
+    private int monday = 0;
+    private int tuesday = 0;
+    private int wednesday = 0;
+    private int thursday = 0;
+    private int friday = 0;
+    private int saturday = 0;
+    private int sunday = 0;
 
     // 생성 메서드
     public static MedicineRelation createMedicineRelation(MedicineUser initUser, Medicine initMedicine,
-                                                          int times, Long dos, Integer taken_type,
+                                                          Integer times, Long dos, int taken_type,
                                                           List<LocalTime> medicine_time,
-                                                          String memo, Integer alarm, List<DayOfWeek> week){
+                                                          LocalDate endDate, String memo,
+                                                          int alarm, List<DayOfWeek> week){
         MedicineRelation medicineRelation = new MedicineRelation();
         medicineRelation.medicineUser = initUser;
         medicineRelation.medicine = initMedicine;
-
         medicineRelation.medicineTimes = times;
         medicineRelation.dosage = dos;
+
+        switch(taken_type){
+            case 0 -> medicineRelation.medicineTakenType = TakenType.DOSE;
+            case 1 -> medicineRelation.medicineTakenType = TakenType.TABLET;
+        }
 
         for (int i = 0; i < medicine_time.size(); i++) {
             switch (i) {
@@ -75,31 +83,22 @@ public class MedicineRelation {
             }
         }
 
-        switch(taken_type){
-            case 0 -> medicineRelation.medicineTakenType = TakenType.dose;
-            case 1 -> medicineRelation.medicineTakenType = TakenType.tablet;
-        }
+        medicineRelation.takenEndDate = endDate;
 
         medicineRelation.medicineMemo = memo;
-        if(alarm == 0){
-            medicineRelation.medicineAlarm = MedicineAlarm.DISAGREE;
-        }
-        else if(alarm == 1){
-            medicineRelation.medicineAlarm = MedicineAlarm.AGREE;
-        }
-        else{
-            throw new IllegalStateException("알람 설정이 올바르지 않습니다.");
-        }
+
+        // 알람
+        medicineRelation.medicineAlarm = alarm;
 
         for (DayOfWeek i : week) {
             switch (i) {
-                case MONDAY -> medicineRelation.monday = MedicineWeek.Y;
-                case TUESDAY -> medicineRelation.tuesday = MedicineWeek.Y;
-                case WEDNESDAY -> medicineRelation.wednesday = MedicineWeek.Y;
-                case THURSDAY -> medicineRelation.thursday = MedicineWeek.Y;
-                case FRIDAY -> medicineRelation.friday = MedicineWeek.Y;
-                case SATURDAY -> medicineRelation.saturday = MedicineWeek.Y;
-                case SUNDAY -> medicineRelation.sunday = MedicineWeek.Y;
+                case MONDAY -> medicineRelation.monday = 1;
+                case TUESDAY -> medicineRelation.tuesday = 1;
+                case WEDNESDAY -> medicineRelation.wednesday = 1;
+                case THURSDAY -> medicineRelation.thursday = 1;
+                case FRIDAY -> medicineRelation.friday = 1;
+                case SATURDAY -> medicineRelation.saturday = 1;
+                case SUNDAY -> medicineRelation.sunday = 1;
                 default -> throw new IllegalStateException("요일 정보가 틀렸습니다.");
             }
         }
@@ -125,11 +124,11 @@ public class MedicineRelation {
     // 약 복용하는 요일 리스트
     public List<DayOfWeek> possibleWeek() {
         List<DayOfWeek> weekList = new ArrayList<>();
-        MedicineWeek[] days = {this.monday, this.tuesday, this.wednesday,
+        int[] days = {this.monday, this.tuesday, this.wednesday,
                 this.thursday, this.friday, this.saturday, this.sunday};
 
         for (int i = 0; i < days.length; i++) {
-            if (days[i] == MedicineWeek.Y) {
+            if (days[i] == 1) {
                 weekList.add(DayOfWeek.of(i + 1));
             }
         }

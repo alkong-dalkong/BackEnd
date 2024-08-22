@@ -13,11 +13,11 @@ public class AddNewMedicineRequest {
     private String medicineName;
     private List<DayOfWeek> medicineWeek = new ArrayList<>();
     private Integer medicineTimes;
-    private List<LocalTime> medicineTakenTime = new ArrayList<>();
+    private List<LocalTime> medicineTakenTimeList = new ArrayList<>();
     private LocalDate medicineStart;
     private LocalDate medicineEnd;
     private Long medicineDosage;
-    private Integer medicineTakenType;
+    private int medicineTakenType;
     private String medicineMemo;
     private Integer medicineAlarm;
 }

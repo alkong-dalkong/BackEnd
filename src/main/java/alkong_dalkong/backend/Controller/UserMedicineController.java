@@ -17,7 +17,6 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class UserMedicineController {
-    private final MedicineUserService medicineUserService;
     private final MedicineRelationService medicineRelationService;
 
     @GetMapping("/medicine/{medicine_user_id}/total_medicine_info")
@@ -36,7 +35,8 @@ public class UserMedicineController {
                     new UserTotalMedicineResponse(medicineRelation.getMedicine().getId(),
                                                         medicineRelation.getMedicine().getMedicineName(),
                                                         weekList, timeList,
-                                                        medicineRelation.getDosage(), medicineRelation.getMedicineMemo());
+                                                        medicineRelation.getDosage(), medicineRelation.getMedicineTakenType()
+                            ,medicineRelation.getMedicineMemo());
             resultList.add(response);
         }
 

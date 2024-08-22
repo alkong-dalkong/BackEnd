@@ -1,17 +1,17 @@
 package alkong_dalkong.backend.DTO;
 
-import alkong_dalkong.backend.Domain.Medicine.Enum.MedicineTaken;
 import lombok.Data;
 
 import java.time.LocalTime;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Data
 public class MedicineDateResponse {
-    private Long medicine_id;
-    private Long medicine_record_id;
-    private String medicine_name;
-    private Long medicine_dosage;
-    private Map<LocalTime, MedicineTaken> medicine_taken_info = new HashMap<>();
+    private List<MedicineDateDto> medicineDateDtoList = new ArrayList<>();
+    private Map<LocalTime, List<MedicineDateTakenInfo>> medicineTakenInfo = new TreeMap<>();
+
+    public void addMedicineTakenInfo(LocalTime time, MedicineDateTakenInfo medicineDateTakenInfo) {
+        // time 키가 존재하지 않으면 새 리스트 생성
+        medicineTakenInfo.computeIfAbsent(time, k -> new ArrayList<>()).add(medicineDateTakenInfo);
+    }
 }

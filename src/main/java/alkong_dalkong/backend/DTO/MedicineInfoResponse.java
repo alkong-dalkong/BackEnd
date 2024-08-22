@@ -1,6 +1,6 @@
 package alkong_dalkong.backend.DTO;
 
-import alkong_dalkong.backend.Domain.Medicine.Enum.MedicineAlarm;
+import alkong_dalkong.backend.Domain.Medicine.Enum.TakenType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -12,12 +12,13 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class MedicineInfoResponse {
-    private String medicine_name;
-    private List<DayOfWeek> medicine_week;
-    private Integer medicine_times;
-    private List<LocalTime> medicine_taken_time;
-    private List<LocalDate> medicine_taken_date;
-    private Long medicine_dosage;
-    private String medicine_memo;
-    private Integer medicine_alarm;
+    private String medicineName;
+    private List<DayOfWeek> medicineWeek;
+    private Integer medicineTimes;
+    private List<LocalTime> medicineTakenTime;
+    private LocalDate medicineEndDate;
+    private Long medicineDosage;
+    private TakenType medicineTakenType;
+    private String medicineMemo;
+    private int medicineAlarm;
 }

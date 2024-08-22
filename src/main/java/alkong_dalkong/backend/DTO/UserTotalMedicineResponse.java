@@ -1,5 +1,6 @@
 package alkong_dalkong.backend.DTO;
 
+import alkong_dalkong.backend.Domain.Medicine.Enum.TakenType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -11,10 +12,11 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class UserTotalMedicineResponse {
-    private Long medicine_id;
-    private String medicine_name;
-    private List<DayOfWeek> medicine_week;
-    private List<LocalTime> medicine_taken_time = new ArrayList<>();
-    private Long medicine_dosage;
-    private String medicine_memo;
+    private Long medicineId;
+    private String medicineName;
+    private List<DayOfWeek> medicineWeek;
+    private List<LocalTime> medicineTakenTime = new ArrayList<>();
+    private Long medicineDosage;
+    private TakenType medicineTakenType;
+    private String medicineMemo;
 }
