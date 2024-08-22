@@ -46,7 +46,7 @@ public class FamilyServiceImpl implements FamilyService {
         // 유저 정보를 이용하여 응답 생성
         for (Relationship relationship : relationships) {
             User member = relationship.getUser();
-            members.add(new MemberResponseElement(member.getId(), member.getName(), member.getUserId()));
+            members.add(new MemberResponseElement(member.getId(), member.getName()));
         }
 
         return new MemberResponseDto(members);
@@ -123,7 +123,7 @@ public class FamilyServiceImpl implements FamilyService {
         // 가족별로 가족그룹의 이름과 구성원 리스트 추출
         List<FamilyResponseElement> results = new ArrayList<>();
         for (Family family : families) {
-            results.add(new FamilyResponseElement(family.getFname(), getMembersByFamilyCode(family.getCode()).getMembers()));
+            results.add(new FamilyResponseElement(family.getCode(), getMembersByFamilyCode(family.getCode()).getMembers()));
         }
         
         return new FamilyResponseDto(results);

@@ -6,7 +6,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class MemberResponseElement {
-    private Long userIdKey;
+    private Long userId;
     private String name;
-    private String userId;
 }

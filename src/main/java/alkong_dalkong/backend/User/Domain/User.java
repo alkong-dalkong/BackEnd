@@ -2,20 +2,25 @@ package alkong_dalkong.backend.User.Domain;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 import java.util.ArrayList;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import alkong_dalkong.backend.Relationship.Domain.Relationship;
 import alkong_dalkong.backend.User.Dto.Request.UserInfoRequestDto;
 
 import org.springframework.security.core.GrantedAuthority;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -55,6 +60,9 @@ public class User implements UserDetails {
 
     @Column(name = "agree")
     private boolean agree;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    List<Relationship> relationships;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

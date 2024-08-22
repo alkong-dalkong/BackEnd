@@ -14,7 +14,7 @@ public class SignupRequestDto {
     private String name;
 
     @NotEmpty(message = "ID가 입력되지 않았습니다.")
-    private String userId;
+    private String id;
 
     @NotEmpty(message = "비밀번호가 입력되지 않았습니다.")
     private String password;

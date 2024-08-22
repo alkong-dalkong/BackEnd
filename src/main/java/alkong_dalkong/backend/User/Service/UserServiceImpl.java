@@ -2,6 +2,7 @@ package alkong_dalkong.backend.User.Service;
 
 import java.util.Set;
 
+import org.hibernate.Hibernate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -42,7 +43,7 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(User.builder()
                 .name(dto.getName())
-                .userId(dto.getUserId())
+                .userId(dto.getId())
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .phoneNumber(dto.getPhoneNumber())
                 .birth(dto.getBirth())
@@ -78,8 +79,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-        return userRepository.findByUserId(userId)
+        User user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("사용자 정보를 찾을 수 없습니다."));
+        Hibernate.initialize(user.getRelationships());
+        return user;
     }
 
     public UserInfoResponseDto getUserInfoForEdit() throws UsernameNotFoundException {
