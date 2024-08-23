@@ -1,13 +1,21 @@
 package alkong_dalkong.backend.User.Config.Filter;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
+
 import io.jsonwebtoken.io.IOException;
 
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import alkong_dalkong.backend.Relationship.Domain.Relationship;
 import alkong_dalkong.backend.User.Config.Util.JwtUtil;
+import alkong_dalkong.backend.User.Domain.User;
+import alkong_dalkong.backend.User.Dto.Response.SuccessLoginresponseDto;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -31,7 +39,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException, IOException {
-        setUsernameParameter("userId");
+        setUsernameParameter("id");
         String userId = obtainUsername(request);
         String password = obtainPassword(request);
 
@@ -50,7 +58,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
         String role = iterator.next().getAuthority();
-System.out.println("login filter : "+userId);
+
         String accessToken = jwtUtil.createJwt("access", userId, role, 10 * 60 * 1000L); // 10분
         String refreshToken = jwtUtil.createJwt("refresh", userId, role, 24 * 60 * 60 * 1000L); // 24시간
 
@@ -60,9 +68,31 @@ System.out.println("login filter : "+userId);
         response.setStatus(HttpStatus.OK.value());
 
         response.setCharacterEncoding("UTF-8");
-        response.setContentType("text/plain; charset=UTF-8");
+
+        // 로그인 성공 시 로그인 한 사용자의 정보를 반환
+        User user = (User) authentication.getPrincipal();
+
+        List<Relationship> relationships = user.getRelationships();
+        List<String> familyCodes = new ArrayList<>();
+        
+        for (Relationship relationship : relationships) {
+            familyCodes.add(relationship.getFamily().getCode());
+        }
+        SuccessLoginresponseDto responseDto = new SuccessLoginresponseDto(user.getId(), user.getUserId(),
+                user.getName(), "");
+
+        try {
+            responseDto.setFamilyCode(familyCodes.get(0));
+        } catch (Exception e) {
+            responseDto.setFamilyCode("");
+        }
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String userJsonResponse = objectMapper.writeValueAsString(responseDto);
+
+        response.setContentType("application/json");
         try (PrintWriter writer = response.getWriter()) {
-            writer.print("로그인에 성공하였습니다.");
+            writer.print(userJsonResponse);
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -73,14 +103,14 @@ System.out.println("login filter : "+userId);
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
             AuthenticationException failed) throws java.io.IOException {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/plain; charset=UTF-8");
         try (PrintWriter writer = response.getWriter()) {
             writer.print("아이디 또는 비밀번호가 일치하지 않습니다.");
             writer.close();
         } catch (IOException e) {
-            e.printStackTrace(); // 로그에 기록
+            e.printStackTrace();
         }
     }
 

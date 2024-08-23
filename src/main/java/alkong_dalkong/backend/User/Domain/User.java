@@ -2,24 +2,31 @@ package alkong_dalkong.backend.User.Domain;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 import java.util.ArrayList;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import alkong_dalkong.backend.Relationship.Domain.Relationship;
+import alkong_dalkong.backend.User.Dto.Request.UserInfoRequestDto;
+
 import org.springframework.security.core.GrantedAuthority;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Builder
+@Builder(toBuilder = true)
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -52,6 +59,9 @@ public class User implements UserDetails {
 
     @Column(name = "agree")
     private boolean agree;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Relationship> relationships;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -92,5 +102,16 @@ public class User implements UserDetails {
             return true;
         }
         return false;
+    }
+
+    public void updateUserInfo(UserInfoRequestDto dto) {
+        this.name = dto.getName();
+        this.phoneNumber = dto.getPhoneNumber();
+        this.birth = dto.getBirth();
+        this.gender = dto.getGender().toString();
+    }
+
+    public void updatePassword(String password) {
+        this.password = password;
     }
 }

@@ -1,5 +1,7 @@
 package alkong_dalkong.backend.Relationship.Domain;
 
+import alkong_dalkong.backend.Family.Domain.Family;
+import alkong_dalkong.backend.User.Domain.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -10,21 +12,25 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-// @Entity
+@Entity
+@Getter
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor
 public class Relationship {
-    // @Id
-    // @GeneratedValue(strategy=GenerationType.AUTO)
-    // @Column(name = "relation_id")
-    // private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "relationship_id")
+    private long id;
 
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "user_id")
-    // private long userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "family_id")
-    // private long familyId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "family_id")
+    private Family family;
 }
