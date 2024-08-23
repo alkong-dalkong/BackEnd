@@ -18,7 +18,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
@@ -61,7 +60,7 @@ public class User implements UserDetails {
     @Column(name = "agree")
     private boolean agree;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Relationship> relationships;
 
     @Override
@@ -105,10 +104,14 @@ public class User implements UserDetails {
         return false;
     }
 
-    public void updateUserInfo(UserInfoRequestDto dto){
+    public void updateUserInfo(UserInfoRequestDto dto) {
         this.name = dto.getName();
         this.phoneNumber = dto.getPhoneNumber();
         this.birth = dto.getBirth();
         this.gender = dto.getGender().toString();
+    }
+
+    public void updatePassword(String password) {
+        this.password = password;
     }
 }

@@ -12,8 +12,10 @@ import org.springframework.stereotype.Service;
 import alkong_dalkong.backend.User.Config.Util.JwtUtil;
 import alkong_dalkong.backend.User.Domain.Gender;
 import alkong_dalkong.backend.User.Domain.User;
+import alkong_dalkong.backend.User.Dto.Request.EditPasswordRequestDto;
 import alkong_dalkong.backend.User.Dto.Request.SignupRequestDto;
 import alkong_dalkong.backend.User.Dto.Request.UserInfoRequestDto;
+import alkong_dalkong.backend.User.Dto.Request.ValidateIdRequestDto;
 import alkong_dalkong.backend.User.Dto.Response.TokenDto;
 import alkong_dalkong.backend.User.Dto.Response.UserInfoResponseDto;
 import alkong_dalkong.backend.User.Repository.UserRepository;
@@ -134,5 +136,20 @@ public class UserServiceImpl implements UserService {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = (User) loadUserByUsername(userId);
         user.updateUserInfo(dto);
+    }
+
+    @Override
+    public void editPassword(EditPasswordRequestDto dto) throws IllegalArgumentException {
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = (User) loadUserByUsername(userId);
+        if (!passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
+            throw new IllegalArgumentException("기존 비밀번호가 일치하지 않습니다.");
+        }
+        user.updatePassword(passwordEncoder.encode(dto.getNewPassword()));
+    }
+
+    @Override
+    public boolean validateId(ValidateIdRequestDto dto) {
+        return !userRepository.existsByUserId(dto.getId());
     }
 }
