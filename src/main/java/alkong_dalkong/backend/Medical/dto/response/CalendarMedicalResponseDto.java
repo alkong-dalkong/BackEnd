@@ -1,4 +1,4 @@
-package alkong_dalkong.backend.Medical.dto;
+package alkong_dalkong.backend.Medical.dto.response;
 
 import lombok.Getter;
 import lombok.Setter;

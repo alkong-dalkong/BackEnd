@@ -1,6 +1,6 @@
 package alkong_dalkong.backend.Medical.service;
 
-import alkong_dalkong.backend.Medical.dto.CalendarMedicalResponseDto;
+import alkong_dalkong.backend.Medical.dto.response.CalendarMedicalResponseDto;
 import alkong_dalkong.backend.Medical.entity.MedicalInfo;
 import alkong_dalkong.backend.Medical.repository.MedicalInfoCalendarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
