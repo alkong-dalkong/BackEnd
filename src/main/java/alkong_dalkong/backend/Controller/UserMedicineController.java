@@ -3,7 +3,6 @@ package alkong_dalkong.backend.Controller;
 import alkong_dalkong.backend.DTO.UserTotalMedicineResponse;
 import alkong_dalkong.backend.Domain.Medicine.MedicineRelation;
 import alkong_dalkong.backend.Service.Medicine.MedicineRelationService;
-import alkong_dalkong.backend.Service.Medicine.MedicineUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,9 +32,8 @@ public class UserMedicineController {
 
             UserTotalMedicineResponse response =
                     new UserTotalMedicineResponse(medicineRelation.getMedicine().getId(),
-                                                        medicineRelation.getMedicine().getMedicineName(),
-                                                        weekList, timeList,
-                                                        medicineRelation.getDosage(), medicineRelation.getMedicineTakenType()
+                            medicineRelation.getMedicine().getMedicineName(), weekList, timeList,
+                            medicineRelation.getDosage(), medicineRelation.getMedicineTakenType()
                             ,medicineRelation.getMedicineMemo());
             resultList.add(response);
         }

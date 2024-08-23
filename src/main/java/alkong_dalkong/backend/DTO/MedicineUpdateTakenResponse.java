@@ -6,4 +6,5 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class MedicineUpdateTakenResponse {
+    private Long medicineRecordId;
 }

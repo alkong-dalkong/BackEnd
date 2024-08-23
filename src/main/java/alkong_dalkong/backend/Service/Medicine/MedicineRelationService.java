@@ -1,10 +1,8 @@
 package alkong_dalkong.backend.Service.Medicine;
 
 import alkong_dalkong.backend.Domain.Medicine.Enum.MedicineTaken;
-import alkong_dalkong.backend.Domain.Medicine.Medicine;
 import alkong_dalkong.backend.Domain.Medicine.MedicineRecord;
 import alkong_dalkong.backend.Domain.Medicine.MedicineRelation;
-import alkong_dalkong.backend.Domain.Medicine.MedicineUser;
 import alkong_dalkong.backend.Repository.Medicine.MedicineRecordRepository;
 import alkong_dalkong.backend.Repository.Medicine.MedicineRelationRepository;
 import alkong_dalkong.backend.Repository.Medicine.MedicineUserRepository;
@@ -14,15 +12,14 @@ import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class MedicineRelationService {
     private final MedicineRelationRepository medicinerelationrepository;
-    private final MedicineUserRepository medicineUserRepository;
     private final MedicineRecordRepository medicineRecordRepository;
     private final MedicineRelationRepository medicineRelationRepository;
 
@@ -34,9 +31,12 @@ public class MedicineRelationService {
     // 약 정보를 사용해 약 기록 테이블 생성
     public void createNewMedicine(MedicineRelation medicineRelation, List<LocalDate> totalDate){
         for(LocalDate localDate : totalDate){
+            // 중복 검사
+            if(medicineRecordRepository.findByTakenDateAndMedicineRelationId(localDate, medicineRelation.getId()) != null)
+                continue;
+
             MedicineRecord medicineRecord =
                     MedicineRecord.createMedicineRecord(localDate, medicineRelation);
-
             if(medicineRelation.getMedicineBreakfast() != null){
                 medicineRecord.changeBreakfastTaken(MedicineTaken.NOT_TAKEN);
             }
@@ -67,5 +67,33 @@ public class MedicineRelationService {
         }
 
         throw new IllegalStateException("사용자가 약 정보를 가지고 있지 않습니다.");
+    }
+
+
+    // 복용 가능해야 하는 모든 날짜
+    public List<LocalDate> countAllDates(LocalDate startDate, LocalDate endDate, List<DayOfWeek> weekList){
+        // 복용 기한이 무제한인 경우
+        LocalDate lastDate = endDate;
+        LocalDate infiniteDate = LocalDate.of(9999, 12, 31);
+        if(lastDate.isEqual(infiniteDate)){
+            lastDate = startDate.plusMonths(1);
+        }
+
+        List<LocalDate> resultList = new ArrayList<>();
+        for (LocalDate date = startDate; !date.isAfter(lastDate); date = date.plusDays(1)) {
+            if(weekList.contains(date.getDayOfWeek())){
+                resultList.add(date);
+            }
+        }
+
+        return resultList;
+    }
+
+    // 무기한 약 복용 기록 추가
+    public void addMedicineInfinite(MedicineRelation medicineRelation, LocalDate date){
+        List<DayOfWeek> weekList = medicineRelation.possibleWeek();
+        List<LocalDate> possibleList = countAllDates(date, medicineRelation.getTakenEndDate(), weekList);
+
+        createNewMedicine(medicineRelation, possibleList);
     }
 }

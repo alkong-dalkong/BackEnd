@@ -7,4 +7,5 @@ import lombok.Data;
 public class MedicineDateTakenInfo {
     public Long medicine_id;
     public MedicineTaken taken;
+    public int index;
 }

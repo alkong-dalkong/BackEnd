@@ -48,7 +48,8 @@ public class MedicineController {
         medicineRelationService.saveMedicineRelation(medicineRelation);
 
         // 복용 하는 모든 리스트
-        List<LocalDate> possibleList = countAllDates(request.getMedicineStart(), request.getMedicineEnd(), request.getMedicineWeek());
+        List<LocalDate> possibleList =
+                medicineRelationService.countAllDates(request.getMedicineStart(), request.getMedicineEnd(), request.getMedicineWeek());
 
         // 약 기록 정보 저장
         medicineRelationService.createNewMedicine(medicineRelation, possibleList);
@@ -72,24 +73,5 @@ public class MedicineController {
                 timeList, medicineRelation.getTakenEndDate(), medicineRelation.getDosage(),
                 medicineRelation.getMedicineTakenType(),
                 medicineRelation.getMedicineMemo(), medicineRelation.getMedicineAlarm());
-    }
-
-    // 복용 가능해야 하는 모든 날짜
-    List<LocalDate> countAllDates(LocalDate startDate, LocalDate endDate, List<DayOfWeek> weekList){
-        // 복용 기한이 무제한인 경우
-        LocalDate lastDate = endDate;
-        LocalDate infiniteDate = LocalDate.of(9999, 12, 31);
-        if(lastDate.isEqual(infiniteDate)){
-            lastDate = startDate.plusMonths(1);
-        }
-
-        List<LocalDate> resultList = new ArrayList<>();
-        for (LocalDate date = startDate; !date.isAfter(lastDate); date = date.plusDays(1)) {
-            if(weekList.contains(date.getDayOfWeek())){
-                resultList.add(date);
-            }
-        }
-
-        return resultList;
     }
 }
