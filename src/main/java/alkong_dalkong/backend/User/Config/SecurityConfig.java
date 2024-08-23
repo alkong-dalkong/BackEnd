@@ -45,7 +45,8 @@ public class SecurityConfig {
                 .httpBasic((httpBasic) -> httpBasic.disable())
                 .authorizeHttpRequests((authorizeRequest) -> authorizeRequest
                         .requestMatchers("/", "/login", "/user/login", "/user/signup", "/user/validate-id",
-                                "/user/reissue", "/user/exit")
+                                "/user/reissue", "/user/exit", "/swagger*/**", 
+                                "/v3/api-docs/**")
                         .permitAll()
                         .anyRequest().authenticated())
                 .addFilterAt(
