@@ -3,8 +3,10 @@ package alkong_dalkong.backend.User.Service;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import alkong_dalkong.backend.User.Dto.Request.EditPasswordRequestDto;
 import alkong_dalkong.backend.User.Dto.Request.SignupRequestDto;
 import alkong_dalkong.backend.User.Dto.Request.UserInfoRequestDto;
+import alkong_dalkong.backend.User.Dto.Request.ValidateIdRequestDto;
 import alkong_dalkong.backend.User.Dto.Response.TokenDto;
 import alkong_dalkong.backend.User.Dto.Response.UserInfoResponseDto;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -22,4 +24,8 @@ public interface UserService extends UserDetailsService{
     UserInfoResponseDto getUserInfoForEdit() throws UsernameNotFoundException;
 
     void editUserInfo(@Valid UserInfoRequestDto dto) throws IllegalArgumentException, UsernameNotFoundException;
+
+    void editPassword(EditPasswordRequestDto dto) throws IllegalArgumentException;
+
+    boolean validateId(ValidateIdRequestDto dto);
 }

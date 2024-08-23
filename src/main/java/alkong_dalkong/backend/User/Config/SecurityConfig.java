@@ -44,7 +44,7 @@ public class SecurityConfig {
                 .logout((logout) -> logout.disable())
                 .httpBasic((httpBasic) -> httpBasic.disable())
                 .authorizeHttpRequests((authorizeRequest) -> authorizeRequest
-                        .requestMatchers("/", "/login", "/user/login", "/user/signup", "/user/signup/idvalidate",
+                        .requestMatchers("/", "/login", "/user/login", "/user/signup", "/user/validate-id",
                                 "/user/reissue", "/user/exit")
                         .permitAll()
                         .anyRequest().authenticated())

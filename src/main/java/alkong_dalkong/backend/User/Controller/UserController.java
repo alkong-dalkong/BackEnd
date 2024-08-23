@@ -2,8 +2,10 @@ package alkong_dalkong.backend.User.Controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import alkong_dalkong.backend.User.Dto.Request.EditPasswordRequestDto;
 import alkong_dalkong.backend.User.Dto.Request.SignupRequestDto;
 import alkong_dalkong.backend.User.Dto.Request.UserInfoRequestDto;
+import alkong_dalkong.backend.User.Dto.Request.ValidateIdRequestDto;
 import alkong_dalkong.backend.User.Dto.Response.TokenDto;
 import alkong_dalkong.backend.User.Service.UserService;
 import jakarta.servlet.http.Cookie;
@@ -18,7 +20,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 @RestController
 @RequiredArgsConstructor
-public class UserController implements UserOperations{
+public class UserController implements UserOperations {
     private final UserService userService;
 
     private Cookie createCookie(String value, int expiry) {
@@ -80,5 +82,23 @@ public class UserController implements UserOperations{
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
         return ResponseEntity.status(HttpStatus.OK).body("회원정보가 수정되었습니다.");
+    }
+
+    @Override
+    public ResponseEntity<?> editPassword(EditPasswordRequestDto dto) {
+        try {
+            userService.editPassword(dto);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+        return ResponseEntity.status(HttpStatus.OK).body("비밀번호가 변경되었습니다.");
+    }
+
+    @Override
+    public ResponseEntity<?> validateId(ValidateIdRequestDto dto) {
+        if (!userService.validateId(dto)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이미 존재하는 아이디입니다.");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body("사용 가능한 아이디입니다.");
     }
 }
