@@ -10,7 +10,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import alkong_dalkong.backend.User.Config.Util.JwtUtil;
-import alkong_dalkong.backend.User.Domain.Gender;
 import alkong_dalkong.backend.User.Domain.User;
 import alkong_dalkong.backend.User.Dto.Request.EditPasswordRequestDto;
 import alkong_dalkong.backend.User.Dto.Request.SignupRequestDto;
@@ -40,6 +39,7 @@ public class UserServiceImpl implements UserService {
     public void createUser(SignupRequestDto dto) throws IllegalArgumentException {
         Set<ConstraintViolation<SignupRequestDto>> violations = validator.validate(dto);
         if (!violations.isEmpty()) {
+            System.out.println(violations);
             throw new IllegalArgumentException("입력값이 올바르지 않습니다.");
         }
 
@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .phoneNumber(dto.getPhoneNumber())
                 .birth(dto.getBirth())
-                .gender(dto.getGender().name())
+                .gender(dto.getGender())
                 .role("ROLE_MEMBER")
                 .agree(dto.isAgree())
                 .build());
@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
         User user = (User) loadUserByUsername(userId);
         
         return new UserInfoResponseDto(user.getName(), user.getPhoneNumber(), user.getBirth(), 
-                Gender.valueOf(user.getGender()));
+                user.getGender());
     }
 
     private String validateRefresh(Cookie[] cookies) throws NullPointerException, ExpiredJwtException,
