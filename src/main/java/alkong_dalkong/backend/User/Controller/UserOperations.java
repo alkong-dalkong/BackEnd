@@ -11,6 +11,8 @@ import alkong_dalkong.backend.User.Dto.Request.EditPasswordRequestDto;
 import alkong_dalkong.backend.User.Dto.Request.SignupRequestDto;
 import alkong_dalkong.backend.User.Dto.Request.UserInfoRequestDto;
 import alkong_dalkong.backend.User.Dto.Request.ValidateIdRequestDto;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 

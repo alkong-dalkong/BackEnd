@@ -18,6 +18,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
@@ -52,7 +54,8 @@ public class User implements UserDetails {
     private LocalDate birth;
     
     @Column(name = "gender")
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     @Column(name = "role")
     private String role;
@@ -108,7 +111,7 @@ public class User implements UserDetails {
         this.name = dto.getName();
         this.phoneNumber = dto.getPhoneNumber();
         this.birth = dto.getBirth();
-        this.gender = dto.getGender().toString();
+        this.gender = dto.getGender();
     }
 
     public void updatePassword(String password) {
