@@ -24,7 +24,7 @@ public class CalendarMedicalService {
         LocalDateTime startDate = yearMonth.atDay(1).atStartOfDay();
         LocalDateTime endDate = yearMonth.atEndOfMonth().atTime(23, 59, 59);
 
-        List<MedicalInfo> medicalInfos = medicalInfoCalendarRepository.findByUsersUserIdAndHospitalDateBetween(userId, startDate, endDate);
+        List<MedicalInfo> medicalInfos = medicalInfoCalendarRepository.findByUserUserIdAndHospitalDateBetween(userId, startDate, endDate);
 
         return medicalInfos.stream().map(medicalInfo -> new CalendarMedicalResponseDto(
                 medicalInfo.getMedicalId(),
