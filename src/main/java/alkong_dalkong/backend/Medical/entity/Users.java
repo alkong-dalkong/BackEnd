@@ -6,7 +6,7 @@ import lombok.Getter;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 @Getter
 public class Users {
 
@@ -18,6 +18,6 @@ public class Users {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "users", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<MedicalInfo> medicalInfos;
 }
