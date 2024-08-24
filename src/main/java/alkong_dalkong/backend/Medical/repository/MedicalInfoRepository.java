@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public interface MedicalInfoCalendarRepository extends JpaRepository<MedicalInfo, Long> {
-    List<MedicalInfo> findByUsersUserIdAndHospitalDateBetween(Long userId, LocalDateTime startDate, LocalDateTime endDate);
+public interface MedicalInfoRepository extends JpaRepository<MedicalInfo, Long> {
+    List<MedicalInfo> findByUserUserIdAndHospitalDateBetween(Long userId, LocalDateTime startDate, LocalDateTime endDate);
 }
