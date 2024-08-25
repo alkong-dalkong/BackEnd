@@ -16,6 +16,7 @@ public class MedicalService {
     @Autowired
     private MedicalInfoRepository medicalInfoRepository;
 
+    /* 진료 정보 get */
     public DetailMedicalResponseDto getMedicalDetail(Long medicalId) {
         Optional<MedicalInfo> optionalMedicalInfo = medicalInfoRepository.findById(medicalId);
 
@@ -38,6 +39,7 @@ public class MedicalService {
 
     }
 
+    /* 알람 인덱스 계산 */
     private int calculateAlarmIndex(LocalDateTime hospitalDate, LocalDateTime medicalAlarm) {
         if (medicalAlarm == null) {
             return 5;
@@ -58,5 +60,17 @@ public class MedicalService {
         }
 
         return 5; // 모두 해당하지 않는 경우 -> 추후 예외처리 필요
+    }
+
+    /* 알람 시간 계산 */
+    private LocalDateTime calculateAlarmDate(LocalDateTime hospitalDate, int medicalAlarmIndex) {
+        return switch (medicalAlarmIndex) {
+            case 0 -> hospitalDate.minusDays(7);
+            case 1 -> hospitalDate.minusHours(24);
+            case 2 -> hospitalDate.minusHours(12);
+            case 3 -> hospitalDate.minusHours(1);
+            case 4 -> hospitalDate.minusMinutes(30);
+            default -> null; // case 5
+        };
     }
 }
