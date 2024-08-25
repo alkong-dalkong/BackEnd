@@ -2,16 +2,14 @@ package alkong_dalkong.backend.Medical.entity;
 
 import alkong_dalkong.backend.Medical.common.StringListConverter;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @Table(name = "medicalinfo")
 @NoArgsConstructor
 @AllArgsConstructor
