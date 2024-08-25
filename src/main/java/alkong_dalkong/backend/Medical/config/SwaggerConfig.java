@@ -46,10 +46,11 @@ public class SwaggerConfig {
         FilterChainProxy filterChainProxy = applicationContext
                 .getBean(AbstractSecurityWebApplicationInitializer.DEFAULT_FILTER_NAME, FilterChainProxy.class);
         return openAPI -> {
-            openAPI.components(new Components())
-                    .components(new Components().addSecuritySchemes("bearerAuth", securityScheme))
-                    .security(Arrays.asList(securityRequirement))
+            Components components = openAPI.getComponents();
+            components.addSecuritySchemes("bearerAuth", securityScheme);
+            openAPI.security(Arrays.asList(securityRequirement))
                     .info(apiInfo());
+
             for (SecurityFilterChain filterChain : filterChainProxy.getFilterChains()) {
                 Optional<LoginFilter> optionalLoginFilter = filterChain.getFilters().stream()
                         .filter(LoginFilter.class::isInstance)
