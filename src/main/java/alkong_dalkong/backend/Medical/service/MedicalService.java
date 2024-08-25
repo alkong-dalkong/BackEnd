@@ -1,8 +1,11 @@
 package alkong_dalkong.backend.Medical.service;
 
+import alkong_dalkong.backend.Medical.dto.request.MedicalRequestDto;
 import alkong_dalkong.backend.Medical.dto.response.DetailMedicalResponseDto;
 import alkong_dalkong.backend.Medical.entity.MedicalInfo;
+import alkong_dalkong.backend.Medical.entity.Users;
 import alkong_dalkong.backend.Medical.repository.MedicalInfoRepository;
+import alkong_dalkong.backend.Medical.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,9 @@ public class MedicalService {
 
     @Autowired
     private MedicalInfoRepository medicalInfoRepository;
+
+    @Autowired
+    private UsersRepository usersRepository;
 
     /* 진료 정보 get */
     public DetailMedicalResponseDto getMedicalDetail(Long medicalId) {
@@ -37,6 +43,26 @@ public class MedicalService {
             return null;
         }
 
+    }
+
+    /* 진료 정보 post */
+    public Long setMedicalInfo(MedicalRequestDto requestDto) {
+        Users user = usersRepository.findById(requestDto.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다."));
+
+        LocalDateTime medicalAlarm = calculateAlarmDate(requestDto.getHospitalDate(), requestDto.getMedicalAlarm());
+
+        MedicalInfo medicalInfo = new MedicalInfo();
+        medicalInfo.setUser(user);
+        medicalInfo.setHospitalName(requestDto.getHospitalName());
+        medicalInfo.setHospitalDate(requestDto.getHospitalDate());
+        medicalInfo.setMedicalPart(requestDto.getMedicalPart());
+        medicalInfo.setMedicalMemo(requestDto.getMedicalMemo());
+        medicalInfo.setMedicalAlarm(medicalAlarm);
+
+        medicalInfo = medicalInfoRepository.save(medicalInfo);
+
+        return medicalInfo.getMedicalId();
     }
 
     /* 알람 인덱스 계산 */
