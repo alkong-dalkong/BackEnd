@@ -1,7 +1,7 @@
 package alkong_dalkong.backend.Medical.controller;
 
 import alkong_dalkong.backend.Medical.dto.response.DetailMedicalResponseDto;
-import alkong_dalkong.backend.Medical.service.DetailMedicalService;
+import alkong_dalkong.backend.Medical.service.MedicalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,16 +14,16 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/medical")
-public class DetailMedicalController {
+public class MedicalController {
 
     @Autowired
-    private DetailMedicalService detailMedicalService;
+    private MedicalService medicalService;
 
     @GetMapping("/{medical_id}")
     public ResponseEntity<?> getDetailMedicalInfo(@PathVariable("medical_id") Long medicalId) {
 
         try {
-            DetailMedicalResponseDto data = detailMedicalService.getMedicalDetail(medicalId);
+            DetailMedicalResponseDto data = medicalService.getMedicalDetail(medicalId);
 
             return ResponseEntity.ok().body(Map.of("code", 200, "data", data));
         } catch (IllegalArgumentException e) {
