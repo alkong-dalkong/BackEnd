@@ -1,6 +1,6 @@
 package alkong_dalkong.backend.Medicine.Controller;
 
-import alkong_dalkong.backend.Medicine.DTO.UserTotalMedicineResponse;
+import alkong_dalkong.backend.Medicine.DTO.Response.UserTotalMedicineResponse;
 import alkong_dalkong.backend.Medicine.Domain.MedicineRelation;
 import alkong_dalkong.backend.Medicine.Service.MedicineRelationService;
 import lombok.RequiredArgsConstructor;

@@ -1,9 +1,9 @@
 package alkong_dalkong.backend.Medicine.Controller;
 
-import alkong_dalkong.backend.Medicine.DTO.AddNewMedicineRequest;
-import alkong_dalkong.backend.Medicine.DTO.AddNewMedicineResponse;
-import alkong_dalkong.backend.Medicine.DTO.MedicineEditRequest;
-import alkong_dalkong.backend.Medicine.DTO.MedicineInfoResponse;
+import alkong_dalkong.backend.Medicine.DTO.Request.AddNewMedicineRequest;
+import alkong_dalkong.backend.Medicine.DTO.Response.AddNewMedicineResponse;
+import alkong_dalkong.backend.Medicine.DTO.Request.MedicineEditRequest;
+import alkong_dalkong.backend.Medicine.DTO.Response.MedicineInfoResponse;
 import alkong_dalkong.backend.Medicine.Domain.Medicine;
 import alkong_dalkong.backend.Medicine.Domain.MedicineRelation;
 import alkong_dalkong.backend.Medicine.Domain.MedicineUser;

@@ -1,4 +1,4 @@
-package alkong_dalkong.backend.Medicine.DTO;
+package alkong_dalkong.backend.Medicine.DTO.Request;
 
 import lombok.Data;
 

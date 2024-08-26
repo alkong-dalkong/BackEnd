@@ -1,4 +1,4 @@
-package alkong_dalkong.backend.Medicine.DTO;
+package alkong_dalkong.backend.Medicine.DTO.Response;
 
 import alkong_dalkong.backend.Medicine.Domain.Enum.TakenType;
 import lombok.AllArgsConstructor;

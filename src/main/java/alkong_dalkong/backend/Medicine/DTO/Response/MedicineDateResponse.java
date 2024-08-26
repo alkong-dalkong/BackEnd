@@ -1,5 +1,7 @@
-package alkong_dalkong.backend.Medicine.DTO;
+package alkong_dalkong.backend.Medicine.DTO.Response;
 
+import alkong_dalkong.backend.Medicine.DTO.MedicineDateDto;
+import alkong_dalkong.backend.Medicine.DTO.MedicineDateTakenInfo;
 import lombok.Data;
 
 import java.time.LocalTime;

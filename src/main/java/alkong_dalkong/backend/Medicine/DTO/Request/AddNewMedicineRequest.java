@@ -1,4 +1,4 @@
-package alkong_dalkong.backend.Medicine.DTO;
+package alkong_dalkong.backend.Medicine.DTO.Request;
 
 import lombok.Data;
 
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class MedicineEditRequest {
+public class AddNewMedicineRequest {
     private String medicineName;
     private List<DayOfWeek> medicineWeek = new ArrayList<>();
     private Integer medicineTimes;
