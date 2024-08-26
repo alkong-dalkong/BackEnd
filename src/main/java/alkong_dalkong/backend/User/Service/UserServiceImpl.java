@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(User.builder()
                 .name(dto.getName())
-                .userId(dto.getId())
+                .username(dto.getId())
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .phoneNumber(dto.getPhoneNumber())
                 .birth(dto.getBirth())
@@ -76,12 +76,12 @@ public class UserServiceImpl implements UserService {
         String refresh = validateRefresh(cookies);
                 System.out.println(refresh);
         String userId = jwtUtil.getUsername(refresh);
-        userRepository.deleteByUserId(userId);
+        userRepository.deleteByUsername(userId);
     }
 
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-        User user = userRepository.findByUserId(userId)
+        User user = userRepository.findByUsername(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("사용자 정보를 찾을 수 없습니다."));
         Hibernate.initialize(user.getRelationships());
         return user;
@@ -150,6 +150,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean validateId(ValidateIdRequestDto dto) {
-        return !userRepository.existsByUserId(dto.getId());
+        return !userRepository.existsByUsername(dto.getId());
     }
 }

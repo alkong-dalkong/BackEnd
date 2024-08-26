@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import alkong_dalkong.backend.Family.Dto.Request.CreateFamilyRequestDto;
+// import alkong_dalkong.backend.Family.Dto.Request.CreateFamilyRequestDto;
 import alkong_dalkong.backend.Family.Dto.Request.EnterFamilyRequestDto;
 import alkong_dalkong.backend.Family.Service.FamilyService;
 import lombok.RequiredArgsConstructor;
@@ -15,10 +15,10 @@ public class FamilyController implements FamilyOperations {
     private final FamilyService familyService;
 
     @Override
-    public ResponseEntity<?> createFamily(CreateFamilyRequestDto dto) {
+    public ResponseEntity<?> createFamily(/*CreateFamilyRequestDto dto*/) {
         
         try {
-            familyService.createFamily(dto);
+            familyService.createFamily(/*dto*/);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
@@ -38,7 +38,7 @@ public class FamilyController implements FamilyOperations {
     public ResponseEntity<?> enterFamily(EnterFamilyRequestDto dto) {
         try {
             String fname = familyService.enterFamily(dto);
-            return ResponseEntity.status(HttpStatus.CREATED).body(fname+"의 가족으로 등록이 완료되었습니다.");
+            return ResponseEntity.status(HttpStatus.CREATED).body(fname+"의 구성원으로 등록이 완료되었습니다.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }

@@ -22,7 +22,7 @@ public class JwtUtil {
 
     // token에서 username을 추출(parsing)
     public String getUsername(String token) {
-        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("userId",
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("username",
                 String.class);
     }
 
@@ -45,10 +45,11 @@ public class JwtUtil {
     }
 
     // 새 토큰을 생성
-    public String createJwt(String category, String userId, String role, Long expiredMs) {
+    public String createJwt(String category, String username, String role, Long expiredMs) {
         return Jwts.builder()
                 .claim("category", category)    //access토큰인지 refresh토큰인지 표시
-                .claim("userId", userId)    // 페이로드에 userId(email)추가
+                .claim("username", 
+                        username)    // 페이로드에 userId(email)추가
                 .claim("role", role)    // 페이로드에 role추가
                 .issuedAt(new Date(System.currentTimeMillis())) // token이 발급되는 시점 기록
                 .expiration(new Date(System.currentTimeMillis() + expiredMs))   //만료 기점 기록
