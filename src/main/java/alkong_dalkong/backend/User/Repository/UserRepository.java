@@ -7,9 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import alkong_dalkong.backend.User.Domain.User;
 
 public interface UserRepository extends JpaRepository<User, Long>{
-    Optional<User> findByUserId(String userId);
+    Optional<User> findByUsername(String userId);
 
-    void deleteByUserId(String userId);
+    void deleteByUsername(String userId);
 
-    boolean existsByUserId(String userId);
+    boolean existsByUsername(String userId);
 }

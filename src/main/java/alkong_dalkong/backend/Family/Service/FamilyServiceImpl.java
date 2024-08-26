@@ -7,7 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import alkong_dalkong.backend.Family.Domain.Family;
-import alkong_dalkong.backend.Family.Dto.Request.CreateFamilyRequestDto;
+// import alkong_dalkong.backend.Family.Dto.Request.CreateFamilyRequestDto;
 import alkong_dalkong.backend.Family.Dto.Request.EnterFamilyRequestDto;
 import alkong_dalkong.backend.Family.Dto.Response.FamilyResponseDto;
 import alkong_dalkong.backend.Family.Dto.Response.FamilyResponseElement;
@@ -46,7 +46,7 @@ public class FamilyServiceImpl implements FamilyService {
         // 유저 정보를 이용하여 응답 생성
         for (Relationship relationship : relationships) {
             User member = relationship.getUser();
-            members.add(new MemberResponseElement(member.getId(), member.getName()));
+            members.add(new MemberResponseElement(member.getUserId(), member.getName()));
         }
 
         return new MemberResponseDto(members);
@@ -59,18 +59,22 @@ public class FamilyServiceImpl implements FamilyService {
     }
 
     @Override
-    public void createFamily(CreateFamilyRequestDto dto) throws IllegalArgumentException {
-        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+    public void createFamily(/*CreateFamilyRequestDto dto*/) throws IllegalArgumentException {
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        
+            System.out.println(username);
         // 가족 코드 생성
         String fcode = codeGenerator.generateCode(10);
         // 회원 정보 조회
-        User user = userRepository.findByUserId(userId)
+        User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("회원 정보가 존재하지 않습니다."));
+        String fname = user.getName() + "님의 가족";
 
         // 가족 정보를 DB에 등록
         Family family = familyRepository.save(Family.builder()
                 .code(fcode)
-                .fname(dto.getFamilyName())
+                // .fname(dto.getFamilyName())
+                .fname(fname)
                 .build());
 
         // 가족 생성을 요청한 회원과 등록한 가족 정보를 연결
@@ -82,10 +86,10 @@ public class FamilyServiceImpl implements FamilyService {
 
     @Override
     public String enterFamily(EnterFamilyRequestDto dto) throws IllegalArgumentException {
-        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
         // 유저 정보 조회
-        User user = userRepository.findByUserId(userId)
+        User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("회원 정보가 존재하지 않습니다."));
 
         // 가족 코드로 가족 정보 조회
@@ -102,14 +106,14 @@ public class FamilyServiceImpl implements FamilyService {
 
     @Override
     public FamilyResponseDto getFamilies() throws IllegalArgumentException {
-        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
         // 유저 정보 조회
-        User user = userRepository.findByUserId(userId)
+        User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("회원 정보가 존재하지 않습니다."));
 
         // relationship을 조회하여 사용자가 가입된 가족 정보들을 조회
-        List<Relationship> relationships = relationshipRepository.findAllByUserId(user.getId())
+        List<Relationship> relationships = relationshipRepository.findAllByUserUserId(user.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("가족 정보가 존재하지 않습니다."));
 
         List<Family> families = new ArrayList<>();
