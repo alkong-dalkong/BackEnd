@@ -4,6 +4,7 @@ import alkong_dalkong.backend.DTO.UserTotalMedicineResponse;
 import alkong_dalkong.backend.Domain.Medicine.MedicineRelation;
 import alkong_dalkong.backend.Service.Medicine.MedicineRelationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,4 +42,12 @@ public class UserMedicineController {
         return resultList;
     }
 
+
+    @DeleteMapping("/medicine/{medicine_user_id}/{medicine_id}/delete")
+    public int MedicineDelete(@PathVariable("medicine_user_id") Long user_id,
+                              @PathVariable("medicine_id") Long medicine_id){
+
+        medicineRelationService.removeMedicineRelation(user_id, medicine_id);
+        return 0;
+    }
 }

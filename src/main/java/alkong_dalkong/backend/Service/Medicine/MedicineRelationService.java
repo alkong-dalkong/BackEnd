@@ -5,7 +5,6 @@ import alkong_dalkong.backend.Domain.Medicine.MedicineRecord;
 import alkong_dalkong.backend.Domain.Medicine.MedicineRelation;
 import alkong_dalkong.backend.Repository.Medicine.MedicineRecordRepository;
 import alkong_dalkong.backend.Repository.Medicine.MedicineRelationRepository;
-import alkong_dalkong.backend.Repository.Medicine.MedicineUserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -95,5 +94,17 @@ public class MedicineRelationService {
         List<LocalDate> possibleList = countAllDates(date, medicineRelation.getTakenEndDate(), weekList);
 
         createNewMedicine(medicineRelation, possibleList);
+    }
+
+    // 약 삭제
+    public void removeMedicineRelation(Long userId, Long medicineID){
+        MedicineRelation removeMedicine = FindUserMedicine(userId, medicineID);
+
+        List<MedicineRecord> medicineRecordList = medicineRecordRepository.findByMedicineRelationId(removeMedicine.getId());
+        if (!medicineRecordList.isEmpty()) {
+            medicineRecordRepository.deleteAll(medicineRecordList);
+        }
+
+        medicineRelationRepository.delete(removeMedicine);
     }
 }

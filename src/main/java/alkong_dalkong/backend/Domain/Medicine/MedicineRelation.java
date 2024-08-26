@@ -84,7 +84,6 @@ public class MedicineRelation {
         }
 
         medicineRelation.takenEndDate = endDate;
-
         medicineRelation.medicineMemo = memo;
 
         // 알람
@@ -102,7 +101,6 @@ public class MedicineRelation {
                 default -> throw new IllegalStateException("요일 정보가 틀렸습니다.");
             }
         }
-
         return medicineRelation;
     }
 
