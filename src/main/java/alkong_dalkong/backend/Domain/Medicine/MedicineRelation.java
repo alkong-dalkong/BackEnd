@@ -104,6 +104,48 @@ public class MedicineRelation {
         return medicineRelation;
     }
 
+    // 약 정보 변경
+    public void changeMedicineRelation(Integer times, Long dos, int taken_type,
+                                              List<LocalTime> medicine_time,
+                                              LocalDate endDate, String memo,
+                                              int alarm, List<DayOfWeek> week){
+        this.medicineTimes = times;
+        this.dosage = dos;
+        switch(taken_type){
+            case 0 -> this.medicineTakenType = TakenType.DOSE;
+            case 1 -> this.medicineTakenType = TakenType.TABLET;
+        }
+
+        this.medicineBreakfast = null; this.medicineLunch = null; this.medicineDinner = null;
+        for (int i = 0; i < medicine_time.size(); i++) {
+            switch (i) {
+                case 0 -> this.medicineBreakfast = medicine_time.get(0);
+                case 1 -> this.medicineLunch = medicine_time.get(1);
+                case 2 -> this.medicineDinner = medicine_time.get(2);
+            }
+        }
+
+        this.takenEndDate = endDate;
+        this.medicineMemo = memo;
+        this.medicineAlarm = alarm;
+
+        // 요일 정보 초기화
+        this.monday = 0; this.tuesday = 0; this.wednesday = 0;
+        this.thursday = 0; this.friday = 0; this.saturday = 0; this.sunday = 0;
+        for (DayOfWeek i : week) {
+            switch (i) {
+                case MONDAY -> this.monday = 1;
+                case TUESDAY -> this.tuesday = 1;
+                case WEDNESDAY -> this.wednesday = 1;
+                case THURSDAY -> this.thursday = 1;
+                case FRIDAY -> this.friday = 1;
+                case SATURDAY -> this.saturday = 1;
+                case SUNDAY -> this.sunday = 1;
+                default -> throw new IllegalStateException("요일 정보가 틀렸습니다.");
+            }
+        }
+    }
+
     // 약 복용하는 시간 리스트
     public List<LocalTime> takenTime(){
         List<LocalTime> timeList = new ArrayList<>();

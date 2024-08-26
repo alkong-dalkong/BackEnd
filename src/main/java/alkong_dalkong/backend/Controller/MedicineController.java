@@ -2,6 +2,7 @@ package alkong_dalkong.backend.Controller;
 
 import alkong_dalkong.backend.DTO.AddNewMedicineRequest;
 import alkong_dalkong.backend.DTO.AddNewMedicineResponse;
+import alkong_dalkong.backend.DTO.MedicineEditRequest;
 import alkong_dalkong.backend.DTO.MedicineInfoResponse;
 import alkong_dalkong.backend.Domain.Medicine.Medicine;
 import alkong_dalkong.backend.Domain.Medicine.MedicineRelation;
@@ -72,5 +73,26 @@ public class MedicineController {
                 timeList, medicineRelation.getTakenEndDate(), medicineRelation.getDosage(),
                 medicineRelation.getMedicineTakenType(),
                 medicineRelation.getMedicineMemo(), medicineRelation.getMedicineAlarm());
+    }
+
+    @PutMapping("/medicine/{medicine_user_id}/{medicine_id}/medicine_info/edit")
+    public Long MedicineEdit(@PathVariable("medicine_user_id") Long user_id,
+                                             @PathVariable("medicine_id") Long medicine_id,
+                                             @RequestBody @Valid MedicineEditRequest request){
+        MedicineRelation medicineRelation = medicineRelationService.FindUserMedicine(user_id, medicine_id);
+        // 기존 약 기록 전부 삭제
+        medicineRecordService.removeMedicineRecord(medicineRelation);
+
+        medicineRelation.changeMedicineRelation(request.getMedicineTimes(), request.getMedicineDosage(), request.getMedicineTakenType(),
+                request.getMedicineTakenTimeList(), request.getMedicineEnd(), request.getMedicineMemo(), request.getMedicineAlarm(), request.getMedicineWeek());
+
+        // 복용 하는 모든 리스트
+        List<LocalDate> possibleList =
+                medicineRelationService.countAllDates(request.getMedicineStart(), request.getMedicineEnd(), request.getMedicineWeek());
+
+        // 약 기록 정보 저장
+        medicineRelationService.createNewMedicine(medicineRelation, possibleList);
+
+        return medicineRelation.getId();
     }
 }

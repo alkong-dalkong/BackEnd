@@ -16,7 +16,7 @@ public class MedicineRecord {
     private LocalDate takenDate;
 
     // 복용하는 사용자와 약 정보
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "medicine_relation_id")
     private MedicineRelation medicineRelation;
 

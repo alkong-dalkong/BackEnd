@@ -21,6 +21,7 @@ public class MedicineRelationService {
     private final MedicineRelationRepository medicinerelationrepository;
     private final MedicineRecordRepository medicineRecordRepository;
     private final MedicineRelationRepository medicineRelationRepository;
+    private final MedicineRecordService medicineRecordService;
 
     // 약 정보 저장
     public void saveMedicineRelation(MedicineRelation newMedicineRelation){
@@ -99,12 +100,7 @@ public class MedicineRelationService {
     // 약 삭제
     public void removeMedicineRelation(Long userId, Long medicineID){
         MedicineRelation removeMedicine = FindUserMedicine(userId, medicineID);
-
-        List<MedicineRecord> medicineRecordList = medicineRecordRepository.findByMedicineRelationId(removeMedicine.getId());
-        if (!medicineRecordList.isEmpty()) {
-            medicineRecordRepository.deleteAll(medicineRecordList);
-        }
-
+        medicineRecordService.removeMedicineRecord(removeMedicine);
         medicineRelationRepository.delete(removeMedicine);
     }
 }

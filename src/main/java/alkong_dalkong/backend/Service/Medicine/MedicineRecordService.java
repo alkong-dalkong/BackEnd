@@ -2,6 +2,7 @@ package alkong_dalkong.backend.Service.Medicine;
 
 import alkong_dalkong.backend.Domain.Medicine.Enum.MedicineTaken;
 import alkong_dalkong.backend.Domain.Medicine.MedicineRecord;
+import alkong_dalkong.backend.Domain.Medicine.MedicineRelation;
 import alkong_dalkong.backend.Repository.Medicine.MedicineRecordRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -73,6 +74,13 @@ public class MedicineRecordService {
         }
         else{
             throw new IllegalStateException("시간 정보가 올바르지 않습니다.");
+        }
+    }
+
+    public void removeMedicineRecord(MedicineRelation removeMedicine){
+        List<MedicineRecord> medicineRecordList = medicineRecordRepository.findByMedicineRelationId(removeMedicine.getId());
+        if (!medicineRecordList.isEmpty()) {
+            medicineRecordRepository.deleteAll(medicineRecordList);
         }
     }
 }
