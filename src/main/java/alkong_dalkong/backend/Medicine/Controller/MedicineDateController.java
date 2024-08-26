@@ -1,6 +1,5 @@
 package alkong_dalkong.backend.Medicine.Controller;
 
-import alkong_dalkong.backend.DTO.*;
 import alkong_dalkong.backend.Medicine.DTO.*;
 import alkong_dalkong.backend.Medicine.DTO.Request.MedicineUpdateTakenRequest;
 import alkong_dalkong.backend.Medicine.DTO.Response.MedicineDateResponse;
