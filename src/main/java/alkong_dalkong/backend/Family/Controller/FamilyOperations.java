@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import alkong_dalkong.backend.Family.Dto.Request.CreateFamilyRequestDto;
+// import alkong_dalkong.backend.Family.Dto.Request.CreateFamilyRequestDto;
 import alkong_dalkong.backend.Family.Dto.Request.EnterFamilyRequestDto;
 
 public interface FamilyOperations {
     @PostMapping("/mypage/create-family")
-    ResponseEntity<?> createFamily(@RequestBody CreateFamilyRequestDto dto);
+    ResponseEntity<?> createFamily(/*@RequestBody CreateFamilyRequestDto dto*/);
 
     @GetMapping("/member-info/{familyCode}")
     ResponseEntity<?> getMembers(@PathVariable String familyCode);

@@ -54,13 +54,13 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
             Authentication authentication) throws java.io.IOException {
-        String userId = authentication.getName();
+        String username = authentication.getName();
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
         String role = iterator.next().getAuthority();
 
-        String accessToken = jwtUtil.createJwt("access", userId, role, 10 * 60 * 1000L); // 10분
-        String refreshToken = jwtUtil.createJwt("refresh", userId, role, 24 * 60 * 60 * 1000L); // 24시간
+        String accessToken = jwtUtil.createJwt("access", username, role, 10 * 60 * 1000L); // 10분
+        String refreshToken = jwtUtil.createJwt("refresh", username, role, 24 * 60 * 60 * 1000L); // 24시간
 
         response.addHeader("Authorization", "Bearer " + accessToken); // 응답 헤더에 access토큰 설정
         response.addCookie(createCookie("refresh", refreshToken)); // 응답시 쿠키에 refresh토큰 저장
@@ -78,7 +78,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         for (Relationship relationship : relationships) {
             familyCodes.add(relationship.getFamily().getCode());
         }
-        SuccessLoginresponseDto responseDto = new SuccessLoginresponseDto(user.getId(), user.getUserId(),
+        SuccessLoginresponseDto responseDto = new SuccessLoginresponseDto(user.getUserId(), user.getUsername(),
                 user.getName(), "");
 
         try {

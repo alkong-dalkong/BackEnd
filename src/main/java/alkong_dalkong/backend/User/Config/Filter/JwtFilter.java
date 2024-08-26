@@ -70,11 +70,11 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         // 토큰에서 사용자 정보 추출
-        String userId = jwtUtil.getUsername(accessToken);
+        String username = jwtUtil.getUsername(accessToken);
         String role = jwtUtil.getRole(accessToken);
 
         User user = User.builder()
-                .userId(userId)
+                .username(username)
                 .password("temp")
                 .role(role).build();
 
