@@ -100,6 +100,16 @@ public class MedicalService {
         }
     }
 
+    /* 진료 정보 delete */
+    public void deleteMedicalInfo(Long medicalId) {
+        // medical_id에 해당하는 진료 정보가 존재하는지 확인
+        if (medicalInfoRepository.existsById(medicalId)) {
+            medicalInfoRepository.deleteById(medicalId);
+        } else {
+            throw new IllegalArgumentException("medical_id: " + medicalId + "가 존재하지 않습니다.");
+        }
+    }
+
     /* 알람 인덱스 계산 */
     private int calculateAlarmIndex(LocalDateTime hospitalDate, LocalDateTime medicalAlarm) {
         if (medicalAlarm == null) {
