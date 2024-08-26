@@ -1,6 +1,7 @@
 package alkong_dalkong.backend.Medical.service;
 
 import alkong_dalkong.backend.Medical.dto.request.MedicalRequestDto;
+import alkong_dalkong.backend.Medical.dto.request.MedicalUpdateRequestDto;
 import alkong_dalkong.backend.Medical.dto.response.DetailMedicalResponseDto;
 import alkong_dalkong.backend.Medical.entity.MedicalInfo;
 import alkong_dalkong.backend.Medical.entity.Users;
@@ -63,6 +64,40 @@ public class MedicalService {
         medicalInfo = medicalInfoRepository.save(medicalInfo);
 
         return medicalInfo.getMedicalId();
+    }
+
+    /* 진료 정보 업데이트 (put) */
+    public void updateMedicalInfo(Long medicalId, MedicalUpdateRequestDto requestDto) {
+        Optional<MedicalInfo> optionalMedicalInfo = medicalInfoRepository.findById(medicalId);
+        if (optionalMedicalInfo.isPresent()) {
+            MedicalInfo medicalInfo = optionalMedicalInfo.get();
+
+            // 필드별로 선택적 업데이트
+            if (requestDto.getHospitalName() != null) {
+                medicalInfo.setHospitalName(requestDto.getHospitalName());
+            }
+
+            if (requestDto.getHospitalDate() != null) {
+                medicalInfo.setHospitalDate(requestDto.getHospitalDate());
+            }
+
+            if (requestDto.getMedicalPart() != null) {
+                medicalInfo.setMedicalPart(requestDto.getMedicalPart());
+            }
+
+            if (requestDto.getMedicalMemo() != null) {
+                medicalInfo.setMedicalMemo(requestDto.getMedicalMemo());
+            }
+
+            if (requestDto.getMedicalAlarm() != null) {
+                LocalDateTime medicalAlarm = calculateAlarmDate(requestDto.getHospitalDate(), requestDto.getMedicalAlarm());
+                medicalInfo.setMedicalAlarm(medicalAlarm);
+            }
+
+            medicalInfoRepository.save(medicalInfo);
+        } else {
+            throw new IllegalArgumentException("medical_id: " + medicalId + "가 존재하지 않습니다.");
+        }
     }
 
     /* 알람 인덱스 계산 */

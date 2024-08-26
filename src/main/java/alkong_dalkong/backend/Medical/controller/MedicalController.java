@@ -1,6 +1,7 @@
 package alkong_dalkong.backend.Medical.controller;
 
 import alkong_dalkong.backend.Medical.dto.request.MedicalRequestDto;
+import alkong_dalkong.backend.Medical.dto.request.MedicalUpdateRequestDto;
 import alkong_dalkong.backend.Medical.dto.response.DetailMedicalResponseDto;
 import alkong_dalkong.backend.Medical.service.MedicalService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,19 @@ public class MedicalController {
             Long medicalId = medicalService.setMedicalInfo(requestDto);
 
             return ResponseEntity.ok().body(Map.of("code", 200, "medical_id", medicalId));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("code", 400, "error", "잘못된 입력값 제공"));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("code", 500, "error", "예상치 못한 오류 발생"));
+        }
+    }
+
+    @PutMapping("/{medical_id}")
+    public ResponseEntity<?> updateMedicalInfo(@PathVariable("medical_id") Long medicalId,
+                                               @RequestBody MedicalUpdateRequestDto requestDto) {
+        try {
+            medicalService.updateMedicalInfo(medicalId, requestDto);
+            return ResponseEntity.ok().body(Map.of("code", 200));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("code", 400, "error", "잘못된 입력값 제공"));
         } catch (Exception e) {
