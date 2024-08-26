@@ -57,4 +57,16 @@ public class MedicalController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("code", 500, "error", "예상치 못한 오류 발생"));
         }
     }
+
+    @DeleteMapping("/{medical_id}")
+    public ResponseEntity<?> deleteMedicalInfo(@PathVariable("medical_id") Long medicalId) {
+        try {
+            medicalService.deleteMedicalInfo(medicalId);
+            return ResponseEntity.ok().body(Map.of("code", 200));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("code", 400, "error", "잘못된 입력값 제공"));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("code", 500, "error", "예상치 못한 오류 발생"));
+        }
+    }
 }
