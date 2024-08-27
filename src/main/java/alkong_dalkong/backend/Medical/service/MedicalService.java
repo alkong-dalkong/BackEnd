@@ -96,7 +96,7 @@ public class MedicalService {
 
             medicalInfoRepository.save(medicalInfo);
         } else {
-            throw new IllegalArgumentException("medical_id: " + medicalId + "가 존재하지 않습니다.");
+            throw new IllegalArgumentException("medicalId: " + medicalId + "가 존재하지 않습니다.");
         }
     }
 
@@ -106,7 +106,7 @@ public class MedicalService {
         if (medicalInfoRepository.existsById(medicalId)) {
             medicalInfoRepository.deleteById(medicalId);
         } else {
-            throw new IllegalArgumentException("medical_id: " + medicalId + "가 존재하지 않습니다.");
+            throw new IllegalArgumentException("medicalId: " + medicalId + "가 존재하지 않습니다.");
         }
     }
 

@@ -21,9 +21,9 @@ public class CalendarMedicalController {
     @Autowired
     private CalendarMedicalService calendarMedicalService;
 
-    @GetMapping("/calendar/{user_id}/{local_date}")
-    public ResponseEntity<Map<String, Object>> getMedicalCalendar(@PathVariable("user_id") Long userId,
-                                                                  @PathVariable("local_date") String localDate) {
+    @GetMapping("/calendar/{userId}/{localDate}")
+    public ResponseEntity<Map<String, Object>> getMedicalCalendar(@PathVariable("userId") Long userId,
+                                                                  @PathVariable("localDate") String localDate) {
         try {
             List<CalendarMedicalResponseDto> data = calendarMedicalService.getMedicalCalendar(userId, localDate);
 
