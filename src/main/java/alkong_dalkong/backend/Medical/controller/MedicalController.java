@@ -18,8 +18,8 @@ public class MedicalController {
     @Autowired
     private MedicalService medicalService;
 
-    @GetMapping("/{medical_id}")
-    public ResponseEntity<?> getDetailMedicalInfo(@PathVariable("medical_id") Long medicalId) {
+    @GetMapping("/{medicalId}")
+    public ResponseEntity<?> getDetailMedicalInfo(@PathVariable("medicalId") Long medicalId) {
 
         try {
             DetailMedicalResponseDto data = medicalService.getMedicalDetail(medicalId);
@@ -37,7 +37,7 @@ public class MedicalController {
         try {
             Long medicalId = medicalService.setMedicalInfo(requestDto);
 
-            return ResponseEntity.ok().body(Map.of("code", 200, "medical_id", medicalId));
+            return ResponseEntity.ok().body(Map.of("code", 200, "medicalId", medicalId));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("code", 400, "error", "잘못된 입력값 제공"));
         } catch (Exception e) {
@@ -45,8 +45,8 @@ public class MedicalController {
         }
     }
 
-    @PutMapping("/{medical_id}")
-    public ResponseEntity<?> updateMedicalInfo(@PathVariable("medical_id") Long medicalId,
+    @PutMapping("/{medicalId}")
+    public ResponseEntity<?> updateMedicalInfo(@PathVariable("medicalId") Long medicalId,
                                                @RequestBody MedicalUpdateRequestDto requestDto) {
         try {
             medicalService.updateMedicalInfo(medicalId, requestDto);
@@ -58,8 +58,8 @@ public class MedicalController {
         }
     }
 
-    @DeleteMapping("/{medical_id}")
-    public ResponseEntity<?> deleteMedicalInfo(@PathVariable("medical_id") Long medicalId) {
+    @DeleteMapping("/{medicalId}")
+    public ResponseEntity<?> deleteMedicalInfo(@PathVariable("medicalId") Long medicalId) {
         try {
             medicalService.deleteMedicalInfo(medicalId);
             return ResponseEntity.ok().body(Map.of("code", 200));
