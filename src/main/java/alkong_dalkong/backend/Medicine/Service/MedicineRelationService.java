@@ -100,7 +100,7 @@ public class MedicineRelationService {
     // 약 삭제
     public void removeMedicineRelation(Long userId, Long medicineID){
         MedicineRelation removeMedicine = FindUserMedicine(userId, medicineID);
-        medicineRecordService.removeMedicineRecord(removeMedicine);
+        medicineRecordService.removeMedicineRecord(removeMedicine.getId());
         medicineRelationRepository.delete(removeMedicine);
     }
 }

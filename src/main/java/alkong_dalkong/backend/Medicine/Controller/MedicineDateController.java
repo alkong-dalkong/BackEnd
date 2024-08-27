@@ -1,7 +1,9 @@
 package alkong_dalkong.backend.Medicine.Controller;
 
-import alkong_dalkong.backend.DTO.*;
 import alkong_dalkong.backend.Medicine.DTO.*;
+import alkong_dalkong.backend.Medicine.DTO.Request.MedicineUpdateTakenRequest;
+import alkong_dalkong.backend.Medicine.DTO.Response.MedicineDateResponse;
+import alkong_dalkong.backend.Medicine.DTO.Response.MedicineUpdateTakenResponse;
 import alkong_dalkong.backend.Medicine.Domain.MedicineRecord;
 import alkong_dalkong.backend.Medicine.Domain.MedicineRelation;
 import alkong_dalkong.backend.Medicine.Service.MedicineRecordService;
