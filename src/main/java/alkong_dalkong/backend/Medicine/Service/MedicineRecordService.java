@@ -77,8 +77,8 @@ public class MedicineRecordService {
         }
     }
 
-    public void removeMedicineRecord(MedicineRelation removeMedicine){
-        List<MedicineRecord> medicineRecordList = medicineRecordRepository.findByMedicineRelationId(removeMedicine.getId());
+    public void removeMedicineRecord(Long removeMedicineId){
+        List<MedicineRecord> medicineRecordList = medicineRecordRepository.findByMedicineRelationId(removeMedicineId);
         if (!medicineRecordList.isEmpty()) {
             medicineRecordRepository.deleteAll(medicineRecordList);
         }

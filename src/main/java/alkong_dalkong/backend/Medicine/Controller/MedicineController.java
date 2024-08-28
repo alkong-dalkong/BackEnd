@@ -7,10 +7,7 @@ import alkong_dalkong.backend.Medicine.DTO.Response.MedicineInfoResponse;
 import alkong_dalkong.backend.Medicine.Domain.Medicine;
 import alkong_dalkong.backend.Medicine.Domain.MedicineRelation;
 import alkong_dalkong.backend.Medicine.Domain.MedicineUser;
-import alkong_dalkong.backend.Medicine.Service.MedicineRecordService;
-import alkong_dalkong.backend.Medicine.Service.MedicineRelationService;
-import alkong_dalkong.backend.Medicine.Service.MedicineService;
-import alkong_dalkong.backend.Medicine.Service.MedicineUserService;
+import alkong_dalkong.backend.Medicine.Service.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +25,7 @@ public class MedicineController {
     private final MedicineRelationService medicineRelationService;
     private final MedicineUserService medicineUserService;
     private final MedicineRecordService medicineRecordService;
+    private final MedicineAlarmService medicineAlarmService;
 
     @PostMapping("/medicine/{medicine_user_id}/add")
     public AddNewMedicineResponse addNewMedicine(@PathVariable("medicine_user_id") Long user_id,
@@ -54,6 +52,9 @@ public class MedicineController {
         // 약 기록 정보 저장
         medicineRelationService.createNewMedicine(medicineRelation, possibleList);
 
+        // 약 알람 정보 저장
+        medicineAlarmService.createMedicineAlarmByMedicineRelation(medicineRelation, possibleList);
+
         return new AddNewMedicineResponse(medicine.getId());
     }
 
@@ -79,9 +80,15 @@ public class MedicineController {
     public Long MedicineEdit(@PathVariable("medicine_user_id") Long user_id,
                                              @PathVariable("medicine_id") Long medicine_id,
                                              @RequestBody @Valid MedicineEditRequest request){
+        // 약 이름 변경
+        medicineService.changeMedicineName(medicine_id, request.getMedicineName());
         MedicineRelation medicineRelation = medicineRelationService.FindUserMedicine(user_id, medicine_id);
+
         // 기존 약 기록 전부 삭제
-        medicineRecordService.removeMedicineRecord(medicineRelation);
+        medicineRecordService.removeMedicineRecord(medicineRelation.getId());
+
+        // 약 알람 기록 전부 삭제
+        medicineAlarmService.deleteAllMedicineAlarm(medicineRelation.getId());
 
         medicineRelation.changeMedicineRelation(request.getMedicineTimes(), request.getMedicineDosage(), request.getMedicineTakenType(),
                 request.getMedicineTakenTimeList(), request.getMedicineEnd(), request.getMedicineMemo(), request.getMedicineAlarm(), request.getMedicineWeek());
@@ -92,6 +99,9 @@ public class MedicineController {
 
         // 약 기록 정보 저장
         medicineRelationService.createNewMedicine(medicineRelation, possibleList);
+
+        // 약 알람 정보 저징
+        medicineAlarmService.createMedicineAlarmByMedicineRelation(medicineRelation, possibleList);
 
         return medicineRelation.getId();
     }

@@ -25,4 +25,8 @@ public class Medicine {
 
         return medicine;
     }
+
+    public void changeName(String newName){
+        this.medicineName = newName;
+    }
 }
