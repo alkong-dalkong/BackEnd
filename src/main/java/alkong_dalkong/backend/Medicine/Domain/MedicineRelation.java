@@ -1,6 +1,7 @@
 package alkong_dalkong.backend.Medicine.Domain;
 
 import alkong_dalkong.backend.Medicine.Domain.Enum.TakenType;
+import alkong_dalkong.backend.User.Domain.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -19,8 +20,8 @@ public class MedicineRelation {
 
     // 약을 복용하는 사용자
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "medicine_user_id")
-    private MedicineUser medicineUser;
+    @JoinColumn(name = "user_id")
+    private User medicineUser;
 
     // 약 정보
     @ManyToOne(fetch = FetchType.LAZY)
@@ -59,7 +60,7 @@ public class MedicineRelation {
     private int sunday = 0;
 
     // 생성 메서드
-    public static MedicineRelation createMedicineRelation(MedicineUser initUser, Medicine initMedicine,
+    public static MedicineRelation createMedicineRelation(User initUser, Medicine initMedicine,
                                                           Integer times, Long dos, int taken_type,
                                                           List<LocalTime> medicine_time,
                                                           LocalDate endDate, String memo,

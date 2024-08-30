@@ -1,13 +1,14 @@
 package alkong_dalkong.backend.Medicine.Controller;
 
+import alkong_dalkong.backend.User.Domain.User;
 import alkong_dalkong.backend.Medicine.DTO.Request.AddNewMedicineRequest;
 import alkong_dalkong.backend.Medicine.DTO.Response.AddNewMedicineResponse;
 import alkong_dalkong.backend.Medicine.DTO.Request.MedicineEditRequest;
 import alkong_dalkong.backend.Medicine.DTO.Response.MedicineInfoResponse;
 import alkong_dalkong.backend.Medicine.Domain.Medicine;
 import alkong_dalkong.backend.Medicine.Domain.MedicineRelation;
-import alkong_dalkong.backend.Medicine.Domain.MedicineUser;
 import alkong_dalkong.backend.Medicine.Service.*;
+import alkong_dalkong.backend.User.Service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -23,16 +24,16 @@ import java.util.Optional;
 public class MedicineController {
     private final MedicineService medicineService;
     private final MedicineRelationService medicineRelationService;
-    private final MedicineUserService medicineUserService;
     private final MedicineRecordService medicineRecordService;
     private final MedicineAlarmService medicineAlarmService;
+    private final UserService userService;
 
     @PostMapping("/medicine/{medicine_user_id}/add")
     public AddNewMedicineResponse addNewMedicine(@PathVariable("medicine_user_id") Long user_id,
                                                 @RequestBody @Valid AddNewMedicineRequest request){
         // user 검색
-        Optional<MedicineUser> findUser = medicineUserService.findUserById(user_id);
-        MedicineUser user = findUser.orElseThrow(()->new IllegalStateException("USER ID가 존재하지 않습니다."));
+        Optional<User> findUser = userService.findUserById(user_id);
+        User user = findUser.orElseThrow(()->new IllegalStateException("USER ID가 존재하지 않습니다."));
 
         // 약 저장
         Medicine medicine = Medicine.createMedicine(request.getMedicineName());
