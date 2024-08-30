@@ -1,5 +1,6 @@
 package alkong_dalkong.backend.User.Service;
 
+import java.util.Optional;
 import java.util.Set;
 
 import org.hibernate.Hibernate;
@@ -151,5 +152,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean validateId(ValidateIdRequestDto dto) {
         return !userRepository.existsByUsername(dto.getId());
+    }
+
+    public Optional<User> findUserById(Long user_id){
+        return userRepository.findById(user_id);
     }
 }
