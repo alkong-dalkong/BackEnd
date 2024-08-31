@@ -56,10 +56,16 @@ public class MainService {
             );
         }
 
+        /* 약 정보 */
+        List<MainResponseDto.CurrentMedicineInfo> currentMedicineInfoList = getCurrentMedicineInfoList(userId, localDate);
 
-        ////////////////
-        /* 약 정보 조회 */
-        ////////////////
+        return new MainResponseDto(upcomingMedicalInfo, recentMedicalInfo, currentMedicineInfoList);
+    }
+
+    ////////////////
+    /* 약 정보 조회 */
+    ////////////////
+    private List<MainResponseDto.CurrentMedicineInfo> getCurrentMedicineInfoList(Long userId, LocalDateTime localDate) {
         List<MainResponseDto.CurrentMedicineInfo> currentMedicineInfoList = new ArrayList<>();
 
         // 사용자가 복용하는 모든 약 정보 가져오기
@@ -77,6 +83,6 @@ public class MainService {
             }
         }
 
-        return new MainResponseDto(upcomingMedicalInfo, recentMedicalInfo, currentMedicineInfoList);
+        return currentMedicineInfoList;
     }
 }
