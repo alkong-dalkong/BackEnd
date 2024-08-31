@@ -28,6 +28,19 @@ public class MainService {
             );
         }
 
+        // 가장 가까운 병원 내원 일정
+        Optional<MedicalInfo> upcomingMedicalInfoOpt = medicalInfoRepository.findTopByUserUserIdAndHospitalDateGreaterThanEqualOrderByHospitalDateAsc(userId, localDate);
+        MainResponseDto.UpcomingMedicalInfo upcomingMedicalInfo = null;
+
+        if (upcomingMedicalInfoOpt.isPresent()) {
+            MedicalInfo upcomingMedicalInfoEntity = upcomingMedicalInfoOpt.get();
+            upcomingMedicalInfo = new MainResponseDto.UpcomingMedicalInfo(
+                    upcomingMedicalInfoEntity.getHospitalName(),
+                    upcomingMedicalInfoEntity.getHospitalDate(),
+                    upcomingMedicalInfoEntity.getMedicalPart()
+            );
+        }
+
         return new MainResponseDto(upcomingMedicalInfo, recentMedicalInfo);
     }
 }
