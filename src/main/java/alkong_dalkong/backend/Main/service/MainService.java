@@ -1,6 +1,6 @@
 package alkong_dalkong.backend.Main.service;
 
-import alkong_dalkong.backend.Main.dto.MainResponseDto;
+import alkong_dalkong.backend.Main.dto.response.MainResponseDto;
 import alkong_dalkong.backend.Medical.entity.MedicalInfo;
 import alkong_dalkong.backend.Medical.repository.MedicalInfoRepository;
 import alkong_dalkong.backend.Medicine.Domain.MedicineRelation;
