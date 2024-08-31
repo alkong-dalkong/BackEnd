@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Data
@@ -15,6 +17,7 @@ public class MainResponseDto {
 
     private UpcomingMedicalInfo upcomingMedicalInfo;
     private RecentMedicalInfo recentMedicalInfo;
+    private List<CurrentMedicineInfo> currentMedicineInfo;
 
     @Data
     @AllArgsConstructor
@@ -29,5 +32,13 @@ public class MainResponseDto {
     public static class RecentMedicalInfo {
         private String hospitalName;
         private LocalDateTime hospitalDate;
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class CurrentMedicineInfo {
+        private String medicineName;
+        private List<LocalTime> times;
+        private List<DayOfWeek> weekList;
     }
 }
