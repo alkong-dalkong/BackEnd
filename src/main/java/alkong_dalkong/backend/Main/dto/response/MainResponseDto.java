@@ -1,4 +1,4 @@
-package alkong_dalkong.backend.Main.dto;
+package alkong_dalkong.backend.Main.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -23,7 +23,10 @@ public class MainResponseDto {
     @AllArgsConstructor
     public static class UpcomingMedicalInfo {
         private String hospitalName;
+
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         private LocalDateTime hospitalDate;
+
         private List<String> medicalPart;
     }
 
@@ -31,6 +34,8 @@ public class MainResponseDto {
     @AllArgsConstructor
     public static class RecentMedicalInfo {
         private String hospitalName;
+
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         private LocalDateTime hospitalDate;
     }
 

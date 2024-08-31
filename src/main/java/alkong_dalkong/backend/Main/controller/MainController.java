@@ -1,6 +1,6 @@
 package alkong_dalkong.backend.Main.controller;
 
-import alkong_dalkong.backend.Main.dto.MainResponseDto;
+import alkong_dalkong.backend.Main.dto.response.MainResponseDto;
 import alkong_dalkong.backend.Main.service.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;

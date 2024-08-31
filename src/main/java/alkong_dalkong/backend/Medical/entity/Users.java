@@ -18,6 +18,6 @@ public class Users {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<MedicalInfo> medicalInfos;
 }
