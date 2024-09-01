@@ -1,8 +1,6 @@
 package alkong_dalkong.backend.Medicine.Service;
 
-import alkong_dalkong.backend.Medicine.Domain.Enum.MedicineTaken;
 import alkong_dalkong.backend.Medicine.Domain.MedicineAlarm;
-import alkong_dalkong.backend.Medicine.Domain.MedicineRecord;
 import alkong_dalkong.backend.Medicine.Domain.MedicineRelation;
 import alkong_dalkong.backend.Medicine.Repository.MedicineAlarmRepository;
 import lombok.RequiredArgsConstructor;

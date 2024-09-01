@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface MedicineRelationRepository extends JpaRepository<MedicineRelation, Long> {
-    List<MedicineRelation> findByMedicineUserId(Long medicineUserId);
-    MedicineRelation findByMedicineIdAndMedicineUserId(Long medicineId, Long medicineUserId);
+    List<MedicineRelation> findByMedicineUser_UserId(Long userId);
+    //MedicineRelation findByMedicineIdAndMedicineUser_UserId(Long medicineId, Long medicineUserId);
 }

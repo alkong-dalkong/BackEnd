@@ -53,7 +53,7 @@ public class MedicineRelationService {
 
     // 사용자가 복용하는 모든 약 정보
     public List<MedicineRelation> FindAllUserMedicine(Long user_id){
-        return medicineRelationRepository.findByMedicineUserId(user_id);
+        return medicineRelationRepository.findByMedicineUser_UserId(user_id);
     }
 
     public MedicineRelation FindUserMedicine(Long user_id, Long medicine_id){
