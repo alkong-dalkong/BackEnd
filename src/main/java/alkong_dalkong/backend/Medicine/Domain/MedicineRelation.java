@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 @Getter
 public class MedicineRelation {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "medicine_relation_id")
     private Long id;
 

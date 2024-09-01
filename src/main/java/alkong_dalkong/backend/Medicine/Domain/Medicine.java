@@ -1,15 +1,12 @@
 package alkong_dalkong.backend.Medicine.Domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 
 @Entity
 @Getter
 public class Medicine {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "medicine_id")
     private Long id;
     // 약 이름

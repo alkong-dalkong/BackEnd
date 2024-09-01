@@ -8,7 +8,7 @@ import java.time.LocalDate;
 @Entity
 @Getter
 public class MedicineRecord {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "medicine_record_id")
     private Long id;
 
