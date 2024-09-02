@@ -1,4 +1,4 @@
-package alkong_dalkong.backend.Medical.config;
+package alkong_dalkong.backend.Common.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.Operation;
