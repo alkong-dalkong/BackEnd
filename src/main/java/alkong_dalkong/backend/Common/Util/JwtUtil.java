@@ -1,4 +1,4 @@
-package alkong_dalkong.backend.User.Config.Util;
+package alkong_dalkong.backend.Common.Util;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;

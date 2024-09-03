@@ -26,7 +26,7 @@ import org.springframework.security.web.FilterChainProxy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 
-import alkong_dalkong.backend.User.Config.Filter.LoginFilter;
+import alkong_dalkong.backend.Common.Filter.LoginFilter;
 
 import java.util.Arrays;
 import java.util.Optional;

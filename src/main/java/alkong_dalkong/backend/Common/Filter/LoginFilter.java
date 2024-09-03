@@ -1,4 +1,4 @@
-package alkong_dalkong.backend.User.Config.Filter;
+package alkong_dalkong.backend.Common.Filter;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -12,8 +12,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import alkong_dalkong.backend.Common.Util.JwtUtil;
 import alkong_dalkong.backend.Relationship.Domain.Relationship;
-import alkong_dalkong.backend.User.Config.Util.JwtUtil;
 import alkong_dalkong.backend.User.Domain.User;
 import alkong_dalkong.backend.User.Dto.Response.SuccessLoginresponseDto;
 

@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import alkong_dalkong.backend.User.Config.Util.JwtUtil;
+import alkong_dalkong.backend.Common.Util.JwtUtil;
 import alkong_dalkong.backend.User.Domain.User;
 import alkong_dalkong.backend.User.Dto.Request.EditPasswordRequestDto;
 import alkong_dalkong.backend.User.Dto.Request.SignupRequestDto;

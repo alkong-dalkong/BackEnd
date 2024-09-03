@@ -1,4 +1,4 @@
-package alkong_dalkong.backend.User.Config.Filter;
+package alkong_dalkong.backend.Common.Filter;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,7 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import alkong_dalkong.backend.User.Config.Util.JwtUtil;
+import alkong_dalkong.backend.Common.Util.JwtUtil;
 import alkong_dalkong.backend.User.Domain.User;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
