@@ -5,6 +5,8 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 application.yml
+google-services.json
+serviceAccountKey.json
 .DS_Store
 
 ### STS ###
