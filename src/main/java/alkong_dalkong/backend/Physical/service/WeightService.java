@@ -1,6 +1,7 @@
 package alkong_dalkong.backend.Physical.service;
 
 import alkong_dalkong.backend.Physical.dto.request.PhysicalRequestDto;
+import alkong_dalkong.backend.Physical.dto.request.PhysicalUpdateRequestDto;
 import alkong_dalkong.backend.Physical.entity.PhysicalInfo;
 import alkong_dalkong.backend.Physical.entity.WeightInfo;
 import alkong_dalkong.backend.Physical.repository.PhysicalInfoRepository;
@@ -32,6 +33,20 @@ public class WeightService {
         weightInfo.setWeight(requestDto.getWeight());
         weightInfo.setCreatedAt(requestDto.getCreatedAt());
         weightInfo.setPhysicalInfo(physicalInfo);
+
+        return weightInfoRepository.save(weightInfo).getWeightId();
+    }
+
+    // 체중 정보 수정
+    public Long updateWeight(Long weightId, PhysicalUpdateRequestDto requestDto) {
+        Optional<WeightInfo> weightInfoOpt = weightInfoRepository.findById(weightId);
+        if (weightInfoOpt.isEmpty()) {
+            throw new IllegalArgumentException("해당 체중 정보를 찾을 수 없습니다: " + weightId);
+        }
+
+        WeightInfo weightInfo = weightInfoOpt.get();
+        weightInfo.setWeight(requestDto.getWeight());
+        weightInfo.setCreatedAt(requestDto.getCreatedAt());
 
         return weightInfoRepository.save(weightInfo).getWeightId();
     }
