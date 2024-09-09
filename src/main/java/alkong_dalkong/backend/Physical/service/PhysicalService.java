@@ -45,8 +45,9 @@ public class PhysicalService {
 
         float apiAvgWeight = getApiAvgWeight(user.getGender(), user.getBirth());
 
-        Optional<WeightInfo> latestWeightOpt =
-                physicalInfo.getWeightInfoList().stream().findFirst();
+        // 체중 정보가 있는지 확인
+        Optional<WeightInfo> latestWeightOpt = physicalInfo.getWeightInfoList() != null ?
+                physicalInfo.getWeightInfoList().stream().findFirst() : Optional.empty();
 
         PhysicalResponseDto.Weight weightDto = null;
         if (latestWeightOpt.isPresent()) {
@@ -58,13 +59,14 @@ public class PhysicalService {
         }
 
         // 주기(period)에 따라 체중 데이터의 평균 계산
-        List<PhysicalResponseDto.WeightInfoDto> weightInfoDtoList = calculateAverageWeight(physicalInfo.getWeightInfoList(), period);
+        List<WeightInfo> weightInfoList = physicalInfo.getWeightInfoList() != null ? physicalInfo.getWeightInfoList() : Collections.emptyList();
+        List<PhysicalResponseDto.WeightInfoDto> weightInfoDtoList = calculateAverageWeight(weightInfoList, period);
 
         // 건강 리포트 생성 (체중 정보가 있을 때만 계산)
         PhysicalResponseDto.HealthReport healthReport = null;
         if (latestWeightOpt.isPresent()) {
             // 주별 그룹화된 weightInfoList를 넘김
-            healthReport = createHealthReport(latestWeightOpt.get().getWeight(), apiAvgWeight, calculateAverageWeight(physicalInfo.getWeightInfoList(), "weekly"));
+            healthReport = createHealthReport(latestWeightOpt.get().getWeight(), apiAvgWeight, calculateAverageWeight(weightInfoList, "weekly"));
         }
 
         return PhysicalResponseDto.builder()
