@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 
+import alkong_dalkong.backend.Physical.entity.PhysicalInfo;
+import jakarta.persistence.*;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -13,15 +15,6 @@ import alkong_dalkong.backend.User.Dto.Request.UserInfoRequestDto;
 
 import org.springframework.security.core.GrantedAuthority;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -65,6 +58,9 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Relationship> relationships;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private PhysicalInfo physicalInfo;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
