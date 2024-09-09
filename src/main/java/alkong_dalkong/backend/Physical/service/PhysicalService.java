@@ -4,11 +4,16 @@ import alkong_dalkong.backend.Physical.dto.response.PhysicalResponseDto;
 import alkong_dalkong.backend.Physical.entity.PhysicalInfo;
 import alkong_dalkong.backend.Physical.entity.WeightInfo;
 import alkong_dalkong.backend.Physical.repository.PhysicalInfoRepository;
+import alkong_dalkong.backend.Physical.util.ApiWeightData;
+import alkong_dalkong.backend.Physical.util.ApiWeightDataWrapper;
+import alkong_dalkong.backend.User.Domain.Gender;
 import alkong_dalkong.backend.User.Domain.User;
 import alkong_dalkong.backend.User.Repository.UserRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -120,6 +125,27 @@ public class PhysicalService {
         int weekOfMonth = (date.getDayOfMonth() - 1) / 7 + 1;
         // 년, 월, 주차 정보를 문자열로 반환
         return date.getYear() + "-" + date.getMonthValue() + "-W" + weekOfMonth;
+    }
+
+    // 통계 데이터를 사용하여 유저의 평균 체중 가져오기
+    private float getApiAvgWeight(Gender gender, LocalDate birthDate) throws IOException {
+        int userAge = AgeRangeUtils.calculateAge(birthDate, LocalDate.now());
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        // ApiWeightDataWrapper 클래스로 역직렬화
+        ApiWeightDataWrapper weightDataWrapper = objectMapper.readValue(
+                new File(WEIGHT_DATA_PATH),
+                ApiWeightDataWrapper.class
+        );
+
+        List<ApiWeightData> weightData = weightDataWrapper.getData();
+
+        return weightData.stream()
+                .filter(data -> data.getGender().equals(gender.toString()))
+                .filter(data -> userAge >= data.getMinAge() && userAge <= data.getMaxAge())
+                .findFirst()
+                .map(ApiWeightData::getApiAvgWeight)
+                .orElseThrow(() -> new IllegalArgumentException("유저의 성별과 나이에 맞는 평균 체중 정보를 가지고 있지 않습니다."));
     }
 
     // 건강 리포트 생성
