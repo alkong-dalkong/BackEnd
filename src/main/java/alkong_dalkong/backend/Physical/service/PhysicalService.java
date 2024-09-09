@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
@@ -112,4 +113,12 @@ public class PhysicalService {
         return (float) weightInfos.stream().mapToDouble(WeightInfo::getWeight).average().orElse(0);
     }
 
+    // WeightInfo 객체의 주(week) 계산후 문자열 조합 후 반환
+    private String getWeekOfMonthAndYear(WeightInfo weightInfo) {
+        LocalDate date = weightInfo.getCreatedAt();
+        // 해당 달의 몇 번째 주인지 계산 (1부터 시작)
+        int weekOfMonth = (date.getDayOfMonth() - 1) / 7 + 1;
+        // 년, 월, 주차 정보를 문자열로 반환
+        return date.getYear() + "-" + date.getMonthValue() + "-W" + weekOfMonth;
+    }
 }
