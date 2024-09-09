@@ -91,6 +91,7 @@ public class PhysicalService {
                             calculateAverage(entry.getValue()), // 평균 계산
                             entry.getKey()  // 년-월-주차 정보
                     ))
+                    .sorted((a, b) -> b.getAvgDate().compareTo(a.getAvgDate())) // 년-월-주차 내림차순 정렬
                     .collect(Collectors.toList());
         } else if (period.equals("monthly")) {
             return weightInfoList.stream()
@@ -100,6 +101,7 @@ public class PhysicalService {
                             calculateAverage(entry.getValue()), // 평균 계산
                             entry.getKey().format(formatter)
                     ))
+                    .sorted((a, b) -> b.getAvgDate().compareTo(a.getAvgDate())) // 년-월 내림차순 정렬
                     .collect(Collectors.toList());
         }
         return Collections.emptyList();  // weightInfoList가 없으면 빈 리스트 반환
