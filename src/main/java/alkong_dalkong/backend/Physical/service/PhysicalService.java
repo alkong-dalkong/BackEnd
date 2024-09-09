@@ -32,8 +32,16 @@ public class PhysicalService {
         }
         User user = userOpt.get();
 
+        // 유저의 PhysicalInfo 찾기 (없으면 생성)
         Optional<PhysicalInfo> physicalInfoOpt = physicalInfoRepository.findByUserUserId(userId);
-        PhysicalInfo physicalInfo = physicalInfoOpt.get();
+        PhysicalInfo physicalInfo;
+        if (physicalInfoOpt.isEmpty()) {
+            physicalInfo = new PhysicalInfo();
+            physicalInfo.setUser(user);
+            physicalInfo = physicalInfoRepository.save(physicalInfo);
+        } else {
+            physicalInfo = physicalInfoOpt.get();
+        }
 
         float apiAvgWeight = getApiAvgWeight(user.getGender(), user.getBirth());
 
