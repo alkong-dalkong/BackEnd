@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PhysicalService {
@@ -75,5 +77,31 @@ public class PhysicalService {
                 .weightInfo(weightInfoDtoList)
                 .healthReport(healthReport)
                 .build();
+    }
+
+    // 주기(period)에 따라 주별 또는 월별 평균 체중 계산
+    private List<PhysicalResponseDto.WeightInfoDto> calculateAverageWeight(List<WeightInfo> weightInfoList, String period) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
+
+        if (period.equals("weekly")) {
+            return weightInfoList.stream()
+                    .collect(Collectors.groupingBy(this::getWeekOfMonthAndYear)) // 년-월-주차로 그룹화
+                    .entrySet().stream()
+                    .map(entry -> new PhysicalResponseDto.WeightInfoDto(
+                            calculateAverage(entry.getValue()), // 평균 계산
+                            entry.getKey()  // 년-월-주차 정보
+                    ))
+                    .collect(Collectors.toList());
+        } else if (period.equals("monthly")) {
+            return weightInfoList.stream()
+                    .collect(Collectors.groupingBy(weight -> weight.getCreatedAt().withDayOfMonth(1))) // 월별 그룹화
+                    .entrySet().stream()
+                    .map(entry -> new PhysicalResponseDto.WeightInfoDto(
+                            calculateAverage(entry.getValue()), // 평균 계산
+                            entry.getKey().format(formatter)
+                    ))
+                    .collect(Collectors.toList());
+        }
+        return Collections.emptyList();  // weightInfoList가 없으면 빈 리스트 반환
     }
 }
