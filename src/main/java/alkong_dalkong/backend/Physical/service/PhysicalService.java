@@ -106,4 +106,10 @@ public class PhysicalService {
         }
         return Collections.emptyList();  // weightInfoList가 없으면 빈 리스트 반환
     }
+
+    // 리스트 내의 체중 정보 평균 계산
+    private float calculateAverage(List<WeightInfo> weightInfos) {
+        return (float) weightInfos.stream().mapToDouble(WeightInfo::getWeight).average().orElse(0);
+    }
+
 }
