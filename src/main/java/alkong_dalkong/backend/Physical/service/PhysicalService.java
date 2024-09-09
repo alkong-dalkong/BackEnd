@@ -4,6 +4,7 @@ import alkong_dalkong.backend.Physical.dto.response.PhysicalResponseDto;
 import alkong_dalkong.backend.Physical.entity.PhysicalInfo;
 import alkong_dalkong.backend.Physical.entity.WeightInfo;
 import alkong_dalkong.backend.Physical.repository.PhysicalInfoRepository;
+import alkong_dalkong.backend.Physical.util.AgeRangeUtils;
 import alkong_dalkong.backend.Physical.util.ApiWeightData;
 import alkong_dalkong.backend.Physical.util.ApiWeightDataWrapper;
 import alkong_dalkong.backend.User.Domain.Gender;
