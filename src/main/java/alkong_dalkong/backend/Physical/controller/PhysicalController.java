@@ -1,6 +1,7 @@
 package alkong_dalkong.backend.Physical.controller;
 
 import alkong_dalkong.backend.Physical.dto.request.PhysicalRequestDto;
+import alkong_dalkong.backend.Physical.dto.request.PhysicalUpdateRequestDto;
 import alkong_dalkong.backend.Physical.dto.response.PhysicalResponseDto;
 import alkong_dalkong.backend.Physical.service.PhysicalService;
 import alkong_dalkong.backend.Physical.service.WeightService;
@@ -39,6 +40,18 @@ public class PhysicalController {
         try {
             Long weightId = weightService.addWeight(requestDto);
             return ResponseEntity.ok().body(Map.of("code", 200, "weightId", weightId));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("code", 400, "error", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("code", 500, "error", e.getMessage()));
+        }
+    }
+
+    @PutMapping("/{weightId}")
+    public ResponseEntity<?> updateWeight(@PathVariable Long weightId, @RequestBody PhysicalUpdateRequestDto requestDto) {
+        try {
+            Long updatedWeightId = weightService.updateWeight(weightId, requestDto);
+            return ResponseEntity.ok().body(Map.of("code", 200, "weightId", updatedWeightId));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(Map.of("code", 400, "error", e.getMessage()));
         } catch (Exception e) {
