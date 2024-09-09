@@ -121,4 +121,20 @@ public class PhysicalService {
         // 년, 월, 주차 정보를 문자열로 반환
         return date.getYear() + "-" + date.getMonthValue() + "-W" + weekOfMonth;
     }
+
+    // 건강 리포트 생성
+    private PhysicalResponseDto.HealthReport createHealthReport(float latestWeight, float apiAvgWeight, List<PhysicalResponseDto.WeightInfoDto> weightInfoList) {
+        // 지난주 평균 체중 계산 (가장 최근 두 주를 비교)
+        float lastWeekAvgWeight = 0.0f;
+        if (weightInfoList.size() >= 2) {
+            // 최근 두 주차 중에서 두 번째 최신 주의 체중 평균을 선택
+            lastWeekAvgWeight = weightInfoList.get(1).getAvgWeight();
+        }
+
+        return PhysicalResponseDto.HealthReport.builder()
+                .apiAvgWeight(apiAvgWeight)
+                .diffWeight(latestWeight - apiAvgWeight)
+                .lastweekWeight(latestWeight - lastWeekAvgWeight)
+                .build();
+    }
 }
