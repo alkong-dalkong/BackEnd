@@ -16,9 +16,11 @@ public class FirebaseConfig {
         try{
             FileInputStream serviceAccount =
                     new FileInputStream("src/main/resources/serviceAccountKey.json");
+
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                     .build();
+
             FirebaseApp.initializeApp(options);
         }catch (Exception e){
             e.printStackTrace();
