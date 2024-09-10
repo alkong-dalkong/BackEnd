@@ -34,11 +34,6 @@ public class MedicineDateController {
             List<MedicineRelation> medicineRelationList = medicineRelationService.FindAllUserMedicine(user_id);
 
             for (MedicineRelation medicineRelation : medicineRelationList) {
-                // 무제한 기간 약의 복용 정보가 없는 경우 (1달 기록 생성)
-                if (medicineRelation.getTakenEndDate().equals(LocalDate.of(9999, 12, 31))) {
-                    medicineRelationService.addMedicineInfinite(medicineRelation, date);
-                }
-
                 // 특정 날짜에 복용하는 약
                 if (medicineRecordService.FindAllDateByMedicine(medicineRelation.getId()).contains(date)) {
                     MedicineDateDto medicineDateDto = new MedicineDateDto();
