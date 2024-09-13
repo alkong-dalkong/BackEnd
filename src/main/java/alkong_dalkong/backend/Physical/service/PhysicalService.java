@@ -12,10 +12,11 @@ import alkong_dalkong.backend.User.Domain.User;
 import alkong_dalkong.backend.User.Repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
@@ -31,8 +32,6 @@ public class PhysicalService {
 
     @Autowired
     private UserRepository userRepository;
-
-    private static final String WEIGHT_DATA_PATH = "src/main/resources/weight_data.json";
 
     public PhysicalResponseDto getPhysicalInfo(Long userId, String period) throws IOException {
         Optional<User> userOpt = userRepository.findById(userId);
@@ -133,20 +132,23 @@ public class PhysicalService {
         int userAge = AgeRangeUtils.calculateAge(birthDate, LocalDate.now());
         ObjectMapper objectMapper = new ObjectMapper();
 
-        // ApiWeightDataWrapper 클래스로 역직렬화
-        ApiWeightDataWrapper weightDataWrapper = objectMapper.readValue(
-                new File(WEIGHT_DATA_PATH),
-                ApiWeightDataWrapper.class
-        );
+        // 리소스 파일을 ClassPathResource를 통해 읽음
+        ClassPathResource resource = new ClassPathResource("weight_data.json");
 
-        List<ApiWeightData> weightData = weightDataWrapper.getData();
+        // InputStream으로 리소스 파일 읽기
+        try (InputStream inputStream = resource.getInputStream()) {
+            // ApiWeightDataWrapper 클래스로 역직렬화
+            ApiWeightDataWrapper weightDataWrapper = objectMapper.readValue(inputStream, ApiWeightDataWrapper.class);
 
-        return weightData.stream()
-                .filter(data -> data.getGender().equals(gender.toString()))
-                .filter(data -> userAge >= data.getMinAge() && userAge <= data.getMaxAge())
-                .findFirst()
-                .map(ApiWeightData::getApiAvgWeight)
-                .orElseThrow(() -> new IllegalArgumentException("유저의 성별과 나이에 맞는 평균 체중 정보를 가지고 있지 않습니다."));
+            List<ApiWeightData> weightData = weightDataWrapper.getData();
+
+            return weightData.stream()
+                    .filter(data -> data.getGender().equals(gender.toString()))
+                    .filter(data -> userAge >= data.getMinAge() && userAge <= data.getMaxAge())
+                    .findFirst()
+                    .map(ApiWeightData::getApiAvgWeight)
+                    .orElseThrow(() -> new IllegalArgumentException("유저의 성별과 나이에 맞는 평균 체중 정보를 가지고 있지 않습니다."));
+        }
     }
 
     // 건강 리포트 생성
