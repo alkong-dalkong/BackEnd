@@ -26,6 +26,7 @@ public class UserController implements UserOperations {
     private Cookie createCookie(String value, int expiry) {
         Cookie cookie = new Cookie("refresh", value);
         cookie.setMaxAge(expiry);
+        cookie.setPath("/");
         cookie.setHttpOnly(true);
 
         return cookie;
