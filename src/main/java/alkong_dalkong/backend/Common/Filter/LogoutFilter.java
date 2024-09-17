@@ -82,6 +82,8 @@ public class LogoutFilter extends GenericFilterBean {
         Cookie cookie = new Cookie("refresh", null);
         cookie.setMaxAge(0);
         response.addCookie(cookie);
+        cookie.setPath("/");
+        cookie.setDomain("localhost");
         response.setStatus(HttpServletResponse.SC_OK);
 
         response.setCharacterEncoding("UTF-8");
