@@ -26,9 +26,9 @@ public class MedicalController {
 
             return ResponseEntity.ok().body(Map.of("code", 200, "data", data));
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("code", 400, "error", "잘못된 입력값 제공"));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("code", 400, "error", e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("code", 500, "error", "예상치 못한 오류 발생"));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("code", 500, "error", e.getMessage()));
         }
     }
 
@@ -39,9 +39,9 @@ public class MedicalController {
 
             return ResponseEntity.ok().body(Map.of("code", 200, "medicalId", medicalId));
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("code", 400, "error", "잘못된 입력값 제공"));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("code", 400, "error", e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("code", 500, "error", "예상치 못한 오류 발생"));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("code", 500, "error", e.getMessage()));
         }
     }
 
@@ -52,9 +52,9 @@ public class MedicalController {
             medicalService.updateMedicalInfo(medicalId, requestDto);
             return ResponseEntity.ok().body(Map.of("code", 200));
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("code", 400, "error", "잘못된 입력값 제공"));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("code", 400, "error", e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("code", 500, "error", "예상치 못한 오류 발생"));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("code", 500, "error", e.getMessage()));
         }
     }
 
@@ -64,9 +64,9 @@ public class MedicalController {
             medicalService.deleteMedicalInfo(medicalId);
             return ResponseEntity.ok().body(Map.of("code", 200));
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("code", 400, "error", "잘못된 입력값 제공"));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("code", 400, "error", e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("code", 500, "error", "예상치 못한 오류 발생"));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("code", 500, "error", e.getMessage()));
         }
     }
 }
