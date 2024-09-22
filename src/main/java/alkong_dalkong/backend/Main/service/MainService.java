@@ -6,6 +6,7 @@ import alkong_dalkong.backend.Medical.repository.MedicalInfoRepository;
 import alkong_dalkong.backend.Medicine.Domain.MedicineRelation;
 import alkong_dalkong.backend.Medicine.Service.MedicineRecordService;
 import alkong_dalkong.backend.Medicine.Service.MedicineRelationService;
+import alkong_dalkong.backend.Physical.repository.WeightInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,9 @@ public class MainService {
 
     @Autowired
     private MedicineRelationService medicineRelationService;
+
+    @Autowired
+    private WeightInfoRepository weightInfoRepository;
 
     @Autowired
     private MedicineRecordService medicineRecordService;
@@ -57,10 +61,13 @@ public class MainService {
             );
         }
 
+        /* 체중 정보 */
+        MainResponseDto.RecentWeightInfo recentWeightInfo = getRecentWeightInfo(userId);
+
         /* 약 정보 */
         List<MainResponseDto.CurrentMedicineInfo> currentMedicineInfoList = getCurrentMedicineInfoList(userId, localDate);
 
-        return new MainResponseDto(upcomingMedicalInfo, recentMedicalInfo, currentMedicineInfoList);
+        return new MainResponseDto(upcomingMedicalInfo, recentMedicalInfo, recentWeightInfo, currentMedicineInfoList);
     }
 
     ////////////////
@@ -91,5 +98,14 @@ public class MainService {
         }
 
         return currentMedicineInfoList;
+    }
+
+    //////////////////////
+    /* 최근 체중 정보 조회 */
+    //////////////////////
+    private MainResponseDto.RecentWeightInfo getRecentWeightInfo(Long userId) {
+        return weightInfoRepository.findTopByPhysicalInfoUserUserIdOrderByCreatedAtDesc(userId)
+                .map(weight -> new MainResponseDto.RecentWeightInfo(weight.getWeight(), weight.getCreatedAt()))
+                .orElse(null);
     }
 }
