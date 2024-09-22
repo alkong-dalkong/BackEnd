@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -17,6 +18,7 @@ public class MainResponseDto {
 
     private UpcomingMedicalInfo upcomingMedicalInfo;
     private RecentMedicalInfo recentMedicalInfo;
+    private RecentWeightInfo recentWeightInfo;
     private List<CurrentMedicineInfo> currentMedicineInfo;
 
     @Data
@@ -37,6 +39,13 @@ public class MainResponseDto {
 
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         private LocalDateTime hospitalDate;
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class RecentWeightInfo {
+        private float weight;
+        private LocalDate date;
     }
 
     @Data
