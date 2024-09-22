@@ -24,6 +24,7 @@ public class PhysicalInfo {
     private User user;
 
     @OneToMany(mappedBy = "physicalInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Builder.Default
     private List<WeightInfo> weightInfoList = new ArrayList<>();
 
 }
