@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 
+import alkong_dalkong.backend.Medical.entity.MedicalInfo;
 import alkong_dalkong.backend.Physical.entity.PhysicalInfo;
 import jakarta.persistence.*;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -61,6 +62,9 @@ public class User implements UserDetails {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private PhysicalInfo physicalInfo;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<MedicalInfo> medicalInfos;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
