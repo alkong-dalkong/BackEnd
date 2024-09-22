@@ -7,6 +7,8 @@ import alkong_dalkong.backend.Medicine.Domain.MedicineRelation;
 import alkong_dalkong.backend.Medicine.Service.MedicineRecordService;
 import alkong_dalkong.backend.Medicine.Service.MedicineRelationService;
 import alkong_dalkong.backend.Physical.repository.WeightInfoRepository;
+import alkong_dalkong.backend.User.Domain.User;
+import alkong_dalkong.backend.User.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +33,13 @@ public class MainService {
     @Autowired
     private MedicineRecordService medicineRecordService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     public MainResponseDto getMainInfo(Long userId, LocalDateTime localDate) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. :" + userId));
+
         /////////////
         /* 진료 정보 */
         /////////////
