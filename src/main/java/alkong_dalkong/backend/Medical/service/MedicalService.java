@@ -4,9 +4,9 @@ import alkong_dalkong.backend.Medical.dto.request.MedicalRequestDto;
 import alkong_dalkong.backend.Medical.dto.request.MedicalUpdateRequestDto;
 import alkong_dalkong.backend.Medical.dto.response.DetailMedicalResponseDto;
 import alkong_dalkong.backend.Medical.entity.MedicalInfo;
-import alkong_dalkong.backend.Medical.entity.Users;
 import alkong_dalkong.backend.Medical.repository.MedicalInfoRepository;
-import alkong_dalkong.backend.Medical.repository.UsersRepository;
+import alkong_dalkong.backend.User.Domain.User;
+import alkong_dalkong.backend.User.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,7 @@ public class MedicalService {
     private MedicalInfoRepository medicalInfoRepository;
 
     @Autowired
-    private UsersRepository usersRepository;
+    private UserRepository userRepository;
 
     /* 진료 정보 get */
     public DetailMedicalResponseDto getMedicalDetail(Long medicalId) {
@@ -48,7 +48,7 @@ public class MedicalService {
 
     /* 진료 정보 post */
     public Long setMedicalInfo(MedicalRequestDto requestDto) {
-        Users user = usersRepository.findById(requestDto.getUserId())
+        User user = userRepository.findById(requestDto.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다."));
 
         LocalDateTime medicalAlarm = calculateAlarmDate(requestDto.getHospitalDate(), requestDto.getMedicalAlarm());

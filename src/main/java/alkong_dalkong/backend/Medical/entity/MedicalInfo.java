@@ -1,6 +1,7 @@
 package alkong_dalkong.backend.Medical.entity;
 
 import alkong_dalkong.backend.Medical.common.StringListConverter;
+import alkong_dalkong.backend.User.Domain.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,7 +11,6 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name = "medicalinfo")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -40,5 +40,5 @@ public class MedicalInfo {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private Users user;
+    private User user;
 }
