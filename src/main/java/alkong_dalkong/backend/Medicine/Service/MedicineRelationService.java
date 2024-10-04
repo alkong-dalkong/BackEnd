@@ -22,6 +22,7 @@ public class MedicineRelationService {
     private final MedicineRecordRepository medicineRecordRepository;
     private final MedicineRelationRepository medicineRelationRepository;
     private final MedicineRecordService medicineRecordService;
+    private final MedicineAlarmService medicineAlarmService;
 
     // 약 정보 저장
     public void saveMedicineRelation(MedicineRelation newMedicineRelation){
@@ -95,11 +96,17 @@ public class MedicineRelationService {
         List<LocalDate> possibleList = countAllDates(date, medicineRelation.getTakenEndDate(), weekList);
 
         createNewMedicine(medicineRelation, possibleList);
+
+        // 무기한 약 알람 추가
+        medicineAlarmService.createMedicineAlarmByMedicineRelation(medicineRelation, possibleList);
     }
 
     // 약 삭제
     public void removeMedicineRelation(Long userId, Long medicineID){
         MedicineRelation removeMedicine = FindUserMedicine(userId, medicineID);
+        // 약 알람 삭제
+        medicineAlarmService.deleteAllMedicineAlarm(removeMedicine.getId());
+        // 약 기록 삭제
         medicineRecordService.removeMedicineRecord(removeMedicine.getId());
         medicineRelationRepository.delete(removeMedicine);
     }
