@@ -121,6 +121,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         cookie.setPath("/");
         cookie.setAttribute("SameSite", "None");
         cookie.setHttpOnly(true);
+        cookie.setSecure(true);
 
         return cookie;
     }
