@@ -18,11 +18,12 @@ public class FamilyController implements FamilyOperations {
     public ResponseEntity<?> createFamily(/*CreateFamilyRequestDto dto*/) {
         
         try {
-            familyService.createFamily(/*dto*/);
+            return ResponseEntity.status(HttpStatus.CREATED).body(familyService.createFamily(/* dto */));
+            // familyService.createFamily(/*dto*/);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body("가족 그룹이 생성되었습니다.");
+        
     }
 
     @Override
