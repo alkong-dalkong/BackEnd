@@ -8,5 +8,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class MemberResponseDto {
+    private String familyName;
     private List<MemberResponseElement> members;
 }

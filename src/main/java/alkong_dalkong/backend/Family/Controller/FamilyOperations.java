@@ -14,7 +14,7 @@ public interface FamilyOperations {
     ResponseEntity<?> createFamily(/*@RequestBody CreateFamilyRequestDto dto*/);
 
     @GetMapping("/member-info/{familyCode}")
-    ResponseEntity<?> getMembers(@PathVariable String familyCode);
+    ResponseEntity<?> getMembers(@PathVariable("familyCode") String familyCode);
 
     @PostMapping("/mypage/enter-family")
     ResponseEntity<?> enterFamily(@RequestBody EnterFamilyRequestDto dto);

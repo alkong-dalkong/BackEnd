@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import alkong_dalkong.backend.Family.Domain.Family;
 // import alkong_dalkong.backend.Family.Dto.Request.CreateFamilyRequestDto;
 import alkong_dalkong.backend.Family.Dto.Request.EnterFamilyRequestDto;
+import alkong_dalkong.backend.Family.Dto.Response.CreateFamilyResponseDto;
 import alkong_dalkong.backend.Family.Dto.Response.FamilyResponseDto;
 import alkong_dalkong.backend.Family.Dto.Response.FamilyResponseElement;
 import alkong_dalkong.backend.Family.Dto.Response.MemberResponseDto;
@@ -49,7 +50,7 @@ public class FamilyServiceImpl implements FamilyService {
             members.add(new MemberResponseElement(member.getUserId(), member.getName()));
         }
 
-        return new MemberResponseDto(members);
+        return new MemberResponseDto(family.getFname(),members);
     }
 
     @Override
@@ -59,10 +60,10 @@ public class FamilyServiceImpl implements FamilyService {
     }
 
     @Override
-    public void createFamily(/*CreateFamilyRequestDto dto*/) throws IllegalArgumentException {
-            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+    public CreateFamilyResponseDto createFamily(/*CreateFamilyRequestDto dto*/) throws IllegalArgumentException {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
         
-            System.out.println(username);
+        //  System.out.println(username);
         // 가족 코드 생성
         String fcode = codeGenerator.generateCode(10);
         // 회원 정보 조회
@@ -81,7 +82,9 @@ public class FamilyServiceImpl implements FamilyService {
         relationshipRepository.save(Relationship.builder()
                 .family(family)
                 .user(user)
-                .build());
+                        .build());
+                
+        return new CreateFamilyResponseDto(fname, fcode);
     }
 
     @Override
@@ -127,7 +130,7 @@ public class FamilyServiceImpl implements FamilyService {
         // 가족별로 가족그룹의 이름과 구성원 리스트 추출
         List<FamilyResponseElement> results = new ArrayList<>();
         for (Family family : families) {
-            results.add(new FamilyResponseElement(family.getCode(), getMembersByFamilyCode(family.getCode()).getMembers()));
+            results.add(new FamilyResponseElement(family.getFname(),family.getCode(), getMembersByFamilyCode(family.getCode()).getMembers()));
         }
         
         return new FamilyResponseDto(results);
