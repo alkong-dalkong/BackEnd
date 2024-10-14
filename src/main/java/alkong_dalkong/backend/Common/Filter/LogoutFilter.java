@@ -3,6 +3,8 @@ package alkong_dalkong.backend.Common.Filter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.web.filter.GenericFilterBean;
 
 import alkong_dalkong.backend.Common.Util.JwtUtil;
@@ -79,12 +81,15 @@ public class LogoutFilter extends GenericFilterBean {
 
         // Refresh 토큰값 null, 생명주기 0인 Cookie 생성
         // redis나 mysql로 토큰을 관리하는 방법 대신으로 만료 토큰을 바로 만료시켜서 탈취 대응
-        Cookie cookie = new Cookie("refresh", null);
-        cookie.setMaxAge(0);
-        response.addCookie(cookie);
-        cookie.setPath("/");
-        cookie.setAttribute("SameSite", "None");
-        cookie.setSecure(true);
+        ResponseCookie cookie = ResponseCookie.from("refresh", null)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(0)
+                .sameSite("None")
+                .build();
+
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
         response.setStatus(HttpServletResponse.SC_OK);
 
         response.setCharacterEncoding("UTF-8");

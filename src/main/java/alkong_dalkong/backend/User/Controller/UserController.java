@@ -8,12 +8,13 @@ import alkong_dalkong.backend.User.Dto.Request.UserInfoRequestDto;
 import alkong_dalkong.backend.User.Dto.Request.ValidateIdRequestDto;
 import alkong_dalkong.backend.User.Dto.Response.TokenDto;
 import alkong_dalkong.backend.User.Service.UserService;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
@@ -23,15 +24,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 public class UserController implements UserOperations {
     private final UserService userService;
 
-    private Cookie createCookie(String value, int expiry) {
-        Cookie cookie = new Cookie("refresh", value);
-        cookie.setMaxAge(expiry);
-        cookie.setPath("/");
-        cookie.setAttribute("SameSite", "None");
-        cookie.setSecure(true);
-        cookie.setHttpOnly(true);
-
-        return cookie;
+    private ResponseCookie createCookie(String value, int expiry) {
+        return ResponseCookie.from("refresh", value)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(expiry)
+                .sameSite("None")
+                .build();
     }
 
     @Override
@@ -50,7 +50,7 @@ public class UserController implements UserOperations {
             TokenDto tokens = userService.reissue(request.getCookies());
 
             response.setHeader("Authorization", "Bearer " + tokens.getAccessToken());
-            response.addCookie(createCookie(tokens.getRefreshToken(), 24 * 60 * 60));
+            response.addHeader(HttpHeaders.SET_COOKIE, createCookie(tokens.getRefreshToken(), 24 * 60 * 60).toString());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
@@ -61,7 +61,7 @@ public class UserController implements UserOperations {
     public ResponseEntity<?> exit(HttpServletRequest request, HttpServletResponse response) {
         try {
             userService.deleteUser(request.getCookies());
-            response.addCookie(createCookie(null, 0));
+            response.addHeader(HttpHeaders.SET_COOKIE, createCookie(null, 0).toString());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
