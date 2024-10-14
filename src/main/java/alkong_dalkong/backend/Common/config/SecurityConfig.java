@@ -62,12 +62,13 @@ public class SecurityConfig {
 
                         CorsConfiguration configuration = new CorsConfiguration();
 
-                        configuration.setAllowedOriginPatterns(Collections.singletonList("https://alkong-dalkong.vercel.app"));
+                        configuration.setAllowedOrigins(Collections.singletonList("https://alkong-dalkong.vercel.app/"));
                         configuration.setAllowedMethods(Collections.singletonList("*"));
                         configuration.setAllowCredentials(true);
                         configuration.setAllowedHeaders(Collections.singletonList("*"));
                         configuration.setMaxAge(3600L);
                         configuration.setExposedHeaders(Collections.singletonList("Authorization"));
+                        
 
                         return configuration;
                     }
