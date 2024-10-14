@@ -22,12 +22,13 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.Authentication;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -63,7 +64,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String refreshToken = jwtUtil.createJwt("refresh", username, role, 24 * 60 * 60 * 1000L); // 24시간
 
         response.addHeader("Authorization", "Bearer " + accessToken); // 응답 헤더에 access토큰 설정
-        response.addCookie(createCookie("refresh", refreshToken)); // 응답시 쿠키에 refresh토큰 저장
+        response.addHeader(HttpHeaders.SET_COOKIE, createCookie("refresh", refreshToken).toString());// 응답시 쿠키에 refresh토큰 저장
 
         response.setStatus(HttpStatus.OK.value());
 
@@ -74,7 +75,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         List<Relationship> relationships = user.getRelationships();
         List<String> familyCodes = new ArrayList<>();
-        
+
         for (Relationship relationship : relationships) {
             familyCodes.add(relationship.getFamily().getCode());
         }
@@ -115,14 +116,13 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     }
 
     // 쿠키 생성
-    private Cookie createCookie(String key, String value) {
-        Cookie cookie = new Cookie(key, value);
-        cookie.setMaxAge(24 * 60 * 60);
-        cookie.setPath("/");
-        cookie.setAttribute("SameSite", "None");
-        cookie.setHttpOnly(true);
-        cookie.setSecure(true);
-
-        return cookie;
+    private ResponseCookie createCookie(String key, String value) {
+        return ResponseCookie.from(key, value)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(24 * 60 * 60)
+                .sameSite("None")
+                .build();
     }
 }
