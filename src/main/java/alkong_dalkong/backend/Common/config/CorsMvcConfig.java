@@ -12,7 +12,7 @@ public class CorsMvcConfig {
     public CorsFilter corsFilter() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         // 모든 도메인 허용
-        corsConfiguration.addAllowedOriginPattern("*");
+        corsConfiguration.addAllowedOriginPattern("https://alkong-dalkong.vercel.app"); // allowCredential과 사용시 쿠키 안 보내짐
         // 모든 HTTP 메서드 허용
         corsConfiguration.addAllowedMethod("*");
         // 모든 헤더 허용
