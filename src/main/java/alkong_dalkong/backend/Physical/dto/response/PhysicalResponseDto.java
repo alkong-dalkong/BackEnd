@@ -38,6 +38,6 @@ public class PhysicalResponseDto {
     public static class HealthReport {
         private float apiAvgWeight;
         private float diffWeight;
-        private float lastweekWeight;
+        private Float lastweekWeight; // null 값을 허용하기 위해 참조타입인 Float로 설정
     }
 }

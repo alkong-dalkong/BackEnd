@@ -159,7 +159,7 @@ public class PhysicalService {
         // 오늘 기준으로 지난주의 날짜를 계산
         LocalDate oneWeekAgo = LocalDate.now().minusWeeks(1);
         int oneWeekAgoWeekOfMonth = (oneWeekAgo.getDayOfMonth() - 1) / 7 + 1;
-        String lastWeek = oneWeekAgo.getYear() + "-" + oneWeekAgo.getMonthValue() + "-W" + oneWeekAgoWeekOfMonth;
+        String lastWeek = String.format("%d-%02d-W%d", oneWeekAgo.getYear(), oneWeekAgo.getMonthValue(), oneWeekAgoWeekOfMonth);
 
         // 지난 주 주차에 해당하는 데이터 필터링하여 해당 주차의 평균 체중을 가져옴
         Optional<Float> lastWeekAvgWeightOpt = weightInfoList.stream()
@@ -167,10 +167,10 @@ public class PhysicalService {
                 .map(PhysicalResponseDto.WeightInfoDto::getAvgWeight)
                 .findFirst();
 
-        // 지난주 평균 체중이 없으면 차이를 -1로 설정
-        float lastWeekAvgWeightDiff = lastWeekAvgWeightOpt
-                .map(lastWeekAvgWeight -> todayWeight - lastWeekAvgWeight) // 지난 주 평균 체중과 오늘 체중 차이 계산
-                .orElse(-1.0f); // 지난 주 데이터가 없으면 -1로 설정
+        // 지난주 평균 체중이 없으면 차이를 null로 설정
+        Float lastWeekAvgWeightDiff = lastWeekAvgWeightOpt
+                .map(lastWeekAvgWeight -> todayWeight - lastWeekAvgWeight)
+                .orElse(null);
 
         return PhysicalResponseDto.HealthReport.builder()
                 .apiAvgWeight(apiAvgWeight)
