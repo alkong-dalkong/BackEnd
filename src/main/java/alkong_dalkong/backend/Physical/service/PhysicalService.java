@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -53,16 +54,18 @@ public class PhysicalService {
 
         float apiAvgWeight = getApiAvgWeight(user.getGender(), user.getBirth());
 
-        // 체중 정보가 있는지 확인
-        Optional<WeightInfo> latestWeightOpt = physicalInfo.getWeightInfoList() != null ?
-                physicalInfo.getWeightInfoList().stream().findFirst() : Optional.empty();
+        // 오늘 날짜의 데이터를 확인 -> 없으면 null 반환
+        Optional<WeightInfo> todayWeightOpt = physicalInfo.getWeightInfoList() != null ?
+                physicalInfo.getWeightInfoList().stream()
+                        .filter(weight -> weight.getCreatedAt().equals(LocalDate.now()))
+                        .findFirst() : Optional.empty();
 
         PhysicalResponseDto.Weight weightDto = null;
-        if (latestWeightOpt.isPresent()) {
-            WeightInfo latestWeight = latestWeightOpt.get();
+        if (todayWeightOpt.isPresent()) {
+            WeightInfo todayWeight = todayWeightOpt.get();
             weightDto = PhysicalResponseDto.Weight.builder()
-                    .weightId(latestWeight.getWeightId())
-                    .weight(latestWeight.getWeight())
+                    .weightId(todayWeight.getWeightId())
+                    .weight(todayWeight.getWeight())
                     .build();
         }
 
@@ -72,9 +75,9 @@ public class PhysicalService {
 
         // 건강 리포트 생성 (체중 정보가 있을 때만 계산)
         PhysicalResponseDto.HealthReport healthReport = null;
-        if (latestWeightOpt.isPresent()) {
+        if (todayWeightOpt.isPresent()) {
             // 주별 그룹화된 weightInfoList를 넘김
-            healthReport = createHealthReport(latestWeightOpt.get().getWeight(), apiAvgWeight, calculateAverageWeight(weightInfoList, "weekly"));
+            healthReport = createHealthReport(todayWeightOpt.get().getWeight(), apiAvgWeight, calculateAverageWeight(weightInfoList, "weekly"));
         }
 
         return PhysicalResponseDto.builder()
@@ -124,7 +127,7 @@ public class PhysicalService {
         // 해당 달의 몇 번째 주인지 계산 (1부터 시작)
         int weekOfMonth = (date.getDayOfMonth() - 1) / 7 + 1;
         // 년, 월, 주차 정보를 문자열로 반환
-        return date.getYear() + "-" + date.getMonthValue() + "-W" + weekOfMonth;
+        return String.format("%d-%02d-W%d", date.getYear(), date.getMonthValue(), weekOfMonth);
     }
 
     // 통계 데이터를 사용하여 유저의 평균 체중 가져오기
@@ -152,18 +155,27 @@ public class PhysicalService {
     }
 
     // 건강 리포트 생성
-    private PhysicalResponseDto.HealthReport createHealthReport(float latestWeight, float apiAvgWeight, List<PhysicalResponseDto.WeightInfoDto> weightInfoList) {
-        // 지난주 평균 체중 계산 (가장 최근 두 주를 비교)
-        float lastWeekAvgWeight = 0.0f;
-        if (weightInfoList.size() >= 2) {
-            // 최근 두 주차 중에서 두 번째 최신 주의 체중 평균을 선택
-            lastWeekAvgWeight = weightInfoList.get(1).getAvgWeight();
-        }
+    private PhysicalResponseDto.HealthReport createHealthReport(float todayWeight, float apiAvgWeight, List<PhysicalResponseDto.WeightInfoDto> weightInfoList) {
+        // 오늘 기준으로 지난주의 날짜를 계산
+        LocalDate oneWeekAgo = LocalDate.now().minusWeeks(1);
+        int oneWeekAgoWeekOfMonth = (oneWeekAgo.getDayOfMonth() - 1) / 7 + 1;
+        String lastWeek = oneWeekAgo.getYear() + "-" + oneWeekAgo.getMonthValue() + "-W" + oneWeekAgoWeekOfMonth;
+
+        // 지난 주 주차에 해당하는 데이터 필터링하여 해당 주차의 평균 체중을 가져옴
+        Optional<Float> lastWeekAvgWeightOpt = weightInfoList.stream()
+                .filter(weightInfo -> weightInfo.getAvgDate().equals(lastWeek))
+                .map(PhysicalResponseDto.WeightInfoDto::getAvgWeight)
+                .findFirst();
+
+        // 지난주 평균 체중이 없으면 차이를 -1로 설정
+        float lastWeekAvgWeightDiff = lastWeekAvgWeightOpt
+                .map(lastWeekAvgWeight -> todayWeight - lastWeekAvgWeight) // 지난 주 평균 체중과 오늘 체중 차이 계산
+                .orElse(-1.0f); // 지난 주 데이터가 없으면 -1로 설정
 
         return PhysicalResponseDto.HealthReport.builder()
                 .apiAvgWeight(apiAvgWeight)
-                .diffWeight(latestWeight - apiAvgWeight)
-                .lastweekWeight(latestWeight - lastWeekAvgWeight)
+                .diffWeight(todayWeight - apiAvgWeight)
+                .lastweekWeight(lastWeekAvgWeightDiff)
                 .build();
     }
 }
