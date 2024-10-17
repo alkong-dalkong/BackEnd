@@ -12,7 +12,8 @@ public class CorsMvcConfig {
     public CorsFilter corsFilter() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         // 도메인 허용
-        corsConfiguration.addAllowedOrigin("https://alkong-dalkong.vercel.app/");
+        corsConfiguration.addAllowedOrigin("https://alkong-dalkong.vercel.app/");   // 클라이언트 origin
+        corsConfiguration.addAllowedOrigin("https://alkongdalkong.duckdns.org/");   // 스웨거 사용을 위한 origin
         // corsConfiguration.addAllowedOriginPattern("https://alkong-dalkong.vercel.app"); // allowCredential과 사용시 쿠키 안 보내짐
         // 모든 HTTP 메서드 허용
         corsConfiguration.addAllowedMethod("*");

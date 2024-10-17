@@ -3,6 +3,8 @@ package alkong_dalkong.backend.Common.config;
 import org.springframework.lang.NonNull;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.ArrayList;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -62,7 +64,9 @@ public class SecurityConfig {
 
                         CorsConfiguration configuration = new CorsConfiguration();
 
-                        configuration.setAllowedOrigins(Collections.singletonList("https://alkong-dalkong.vercel.app/"));
+                        configuration.setAllowedOrigins(new ArrayList<>(List.of("https://alkong-dalkong.vercel.app/", 
+                                "https://alkongdalkong.duckdns.org/")));
+                        // configuration.setAllowedOrigins(Collections.singletonList("https://alkong-dalkong.vercel.app/"));
                         configuration.setAllowedMethods(Collections.singletonList("*"));
                         configuration.setAllowCredentials(true);
                         configuration.setAllowedHeaders(Collections.singletonList("*"));
