@@ -65,8 +65,8 @@ public class SecurityConfig {
                         CorsConfiguration configuration = new CorsConfiguration();
 
                         configuration.setAllowedOrigins(new ArrayList<>(List.of("https://alkong-dalkong.vercel.app/", 
-                                "https://alkongdalkong.duckdns.org/")));
-                        // configuration.setAllowedOrigins(Collections.singletonList("https://alkong-dalkong.vercel.app/"));
+                                "https://alkongdalkong.duckdns.org/", "http://localhost:3000", 
+                                "https://alkong-dalkong-fe.vercel.app/")));
                         configuration.setAllowedMethods(Collections.singletonList("*"));
                         configuration.setAllowCredentials(true);
                         configuration.setAllowedHeaders(Collections.singletonList("*"));
