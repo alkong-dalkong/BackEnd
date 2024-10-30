@@ -130,7 +130,7 @@ public class FamilyServiceImpl implements FamilyService {
         // 가족별로 가족그룹의 이름과 구성원 리스트 추출
         List<FamilyResponseElement> results = new ArrayList<>();
         for (Family family : families) {
-            results.add(new FamilyResponseElement(family.getFname(),family.getCode(), getMembersByFamilyCode(family.getCode()).getMembers()));
+            results.add(new FamilyResponseElement(family.getCode(), family.getFname(),getMembersByFamilyCode(family.getCode()).getMembers()));
         }
         
         return new FamilyResponseDto(results);
