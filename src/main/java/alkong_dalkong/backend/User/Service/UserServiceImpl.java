@@ -57,9 +57,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public TokenDto reissue(Cookie[] cookies) throws NullPointerException, ExpiredJwtException, 
+    public TokenDto reissue(String refresh/*Cookie[] cookies*/) throws NullPointerException, ExpiredJwtException, 
             IllegalArgumentException {
-        String refresh = validateRefresh(cookies);
+        // String refresh = validateRefresh(cookies);
 
         String userId = jwtUtil.getUsername(refresh);
         String role = jwtUtil.getRole(refresh);
