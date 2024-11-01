@@ -47,9 +47,10 @@ public class UserController implements UserOperations {
     @Override
     public ResponseEntity<?> reissue(HttpServletRequest request, HttpServletResponse response) {
         try {
-            TokenDto tokens = userService.reissue(request.getCookies());
+            TokenDto tokens = userService.reissue(request.getHeader("Refresh")/*request.getCookies()*/);
 
             response.setHeader("Authorization", "Bearer " + tokens.getAccessToken());
+            response.setHeader("Refresh", tokens.getRefreshToken());    // 테스트용 리프레시 헤더
             response.addHeader(HttpHeaders.SET_COOKIE, createCookie(tokens.getRefreshToken(), 24 * 60 * 60).toString());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

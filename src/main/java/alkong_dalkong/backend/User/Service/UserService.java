@@ -20,7 +20,8 @@ import java.util.Optional;
 public interface UserService extends UserDetailsService{
     void createUser(@Valid SignupRequestDto dto) throws IllegalArgumentException;
 
-    TokenDto reissue(Cookie[] cookies) throws NullPointerException, ExpiredJwtException, 
+    TokenDto reissue(
+            String refresh/* Cookie[] cookies */) throws NullPointerException, ExpiredJwtException, 
             IllegalArgumentException;
 
     void deleteUser(Cookie[] cookies);
