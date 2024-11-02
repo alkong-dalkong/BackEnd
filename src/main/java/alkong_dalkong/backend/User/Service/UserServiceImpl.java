@@ -61,8 +61,13 @@ public class UserServiceImpl implements UserService {
             IllegalArgumentException {
         // String refresh = validateRefresh(cookies);
 
-        String userId = jwtUtil.getUsername(refresh);
-        String role = jwtUtil.getRole(refresh);
+        // String userId = jwtUtil.getUsername(refresh);
+        // String role = jwtUtil.getRole(refresh);
+
+        String refreshToken = refresh.split(" ")[1];
+
+        String userId = jwtUtil.getUsername(refreshToken);
+        String role = jwtUtil.getRole(refreshToken);
 
         // 새 토큰 발급
         String newAccess = jwtUtil.createJwt("access", userId, role, 600000L);

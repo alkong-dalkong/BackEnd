@@ -28,6 +28,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 
 import alkong_dalkong.backend.Common.Filter.LoginFilter;
+import alkong_dalkong.backend.Common.Filter.LogoutFilter;
 
 import java.util.Arrays;
 import java.util.List;
@@ -61,9 +62,9 @@ public class SwaggerConfig {
                                                 .filter(LoginFilter.class::isInstance)
                                                 .map(LoginFilter.class::cast)
                                                 .findAny();
-                                Optional<LoginFilter> optionalLogoutFilter = filterChain.getFilters().stream()
-                                                .filter(LoginFilter.class::isInstance)
-                                                .map(LoginFilter.class::cast)
+                                Optional<LogoutFilter> optionalLogoutFilter = filterChain.getFilters().stream()
+                                                .filter(LogoutFilter.class::isInstance)
+                                                .map(LogoutFilter.class::cast)
                                                 .findAny();
                                 if (optionalLoginFilter.isPresent()) {
                                         LoginFilter loginFilter = optionalLoginFilter.get();
@@ -93,7 +94,7 @@ public class SwaggerConfig {
                                 }
 
                                 if (optionalLogoutFilter.isPresent()) {
-                                        LoginFilter logoutFilter = optionalLogoutFilter.get();
+                                        LogoutFilter logoutFilter = optionalLogoutFilter.get();
 
                                         Operation operation = new Operation();
 
